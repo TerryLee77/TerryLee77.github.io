@@ -1,32 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>nohup命令</title>
-      <link href="/2022/01/29/nohup%E5%91%BD%E4%BB%A4/"/>
-      <url>/2022/01/29/nohup%E5%91%BD%E4%BB%A4/</url>
-      
-        <content type="html"><![CDATA[<h1><span id="linux的nohup命令用法">Linux的nohup命令用法</span></h1><p>​ 我们在使用Linux的时候</p>]]></content>
-      
-      
+<search>
+  <entry>
+    <title>nohup命令</title>
+    <url>/2022/01/29/nohup%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1><span id="linux的nohup命令用法">Linux的nohup命令用法</span></h1>
+<p>​ 我们在使用Linux的时候</p>
+]]></content>
       <categories>
-          
-          <category> Linux </category>
-          
+        <category>Linux</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> Linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
 </search>
