@@ -25,7 +25,7 @@ up（不挂起），用于在系统后台不挂断地运行命令，退出终端
 <h2><span id="实例">实例</span></h2>
 <p>​
 比如我们想要在后台运行<code>test.py</code>代码，只需在命令行输入：</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">nohup python -u test.py &amp;</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">nohup python -u test.py &amp;</span><br></pre></td></tr></tbody></table></figure>
 <p>​
 如果仅仅如此使用<code>nohup</code>命令的话，程序的输出会默认重定向到一个<code>nohup.out</code>文件下。如果我们想要输出到指定文件，可另外指定输出文件：</p>
 <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">nohup .python -u test.py &gt; myout.txt </span><br></pre></td></tr></tbody></table></figure>
