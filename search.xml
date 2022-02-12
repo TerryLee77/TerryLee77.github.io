@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>nohup命令</title>
-      <link href="/2022/01/29/nohup%E5%91%BD%E4%BB%A4/"/>
-      <url>/2022/01/29/nohup%E5%91%BD%E4%BB%A4/</url>
-      
-        <content type="html"><![CDATA[<h1><span id="nohup命令用法"><code>nohup</code>命令用法</span></h1><p>​我们在使用Linux的时候，希望让某个程序在后台运行。在命令的末尾加个&amp;符号后，程序可以在后台运行，但是一旦当前终端关闭（即退出当前帐户），该程序就会停止运行。那假如说我们想要退出当前终端，但又想让程序在后台运行，该如何处理呢？比如我们想讲任务提交到服务器运行，在这种情况下我们就可以使用<code>nohup</code>命令。</p><p>​ <code>nohup</code> 英文全称 no hangup（不挂起），用于在系统后台不挂断地运行命令，退出终端不会影响程序的运行。</p><h2><span id="语法格式">语法格式</span></h2><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup Command [ Arg … ] [　&amp; ]</span><br></pre></td></tr></tbody></table></figure><ul><li><p><strong>Command</strong>：要执行的命令。</p></li><li><p><strong>Arg</strong>：一些参数，可以指定输出文件。</p></li><li><p><strong>&amp;</strong>：让命令在后台执行，终端退出后命令仍旧执行。</p></li></ul><p>​ 无论是否将 <code>nohup</code>命令的输出重定向到终端，输出都将附加到当前目录的<code>nohup.out</code>文件中。如果当前目录的 <code>nohup.out</code>文件不可写，输出重定向到 <code>$HOME/nohup.out</code>文件中。</p><p>​ 可以使用<code>nohup--help</code>获得帮助，更多<code>OPTION</code>如下：</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">--help</span><br><span class="line"> 显示帮助信息并退出</span><br><span class="line">--version</span><br><span class="line"> 显示版本信息并退出</span><br></pre></td></tr></tbody></table></figure><h2><span id="实例">实例</span></h2><p>​比如我们想要在后台运行<code>test.py</code>代码，只需在命令行输入：</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup python -u test.py &amp;</span><br></pre></td></tr></tbody></table></figure><p>​如果仅仅如此使用<code>nohup</code>命令的话，程序的输出会默认重定向到一个<code>nohup.out</code>文件下。如果我们想要输出到指定文件，可另外指定输出文件：</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup .python -u test.py &gt; myout.txt </span><br></pre></td></tr></tbody></table></figure><p>​ 这样一来，把标准输出/错误重定向到指定目录下。</p><p>​当我们想关闭nohup进程时，需要用<code>top</code>找到进程对应的<code>pid</code>，然后使用<code>kill</code>命令，关闭该进程。</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 PID</span><br></pre></td></tr></tbody></table></figure>]]></content>
-      
-      
+<search>
+  <entry>
+    <title>nohup命令</title>
+    <url>/2022/01/29/nohup%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1><span id="nohup命令用法"><code>nohup</code>命令用法</span></h1><p>​        我们在使用Linux的时候，希望让某个程序在后台运行。在命令的末尾加个&amp;符号后，程序可以在后台运行，但是一旦当前终端关闭（即退出当前帐户），该程序就会停止运行。那假如说我们想要退出当前终端，但又想让程序在后台运行，该如何处理呢？比如我们想讲任务提交到服务器运行，在这种情况下我们就可以使用<code>nohup</code>命令。</p>
+<p>​        <code>nohup</code> 英文全称 no hang up（不挂起），用于在系统后台不挂断地运行命令，退出终端不会影响程序的运行。</p>
+<h2><span id="语法格式">语法格式</span></h2><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">nohup Command [ Arg … ] [　&amp; ]</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li><p><strong>Command</strong>：要执行的命令。</p>
+</li>
+<li><p><strong>Arg</strong>：一些参数，可以指定输出文件。</p>
+</li>
+<li><p>**&amp;**：让命令在后台执行，终端退出后命令仍旧执行。</p>
+</li>
+</ul>
+<p>​        无论是否将 <code>nohup</code> 命令的输出重定向到终端，输出都将附加到当前目录的 <code>nohup.out </code>文件中。如果当前目录的 <code>nohup.out</code> 文件不可写，输出重定向到 <code>$HOME/nohup.out </code>文件中。</p>
+<p>​        可以使用<code>nohup --help</code>获得帮助，更多<code>OPTION</code>如下：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">--help</span><br><span class="line"> 显示帮助信息并退出</span><br><span class="line">--version</span><br><span class="line"> 显示版本信息并退出</span><br></pre></td></tr></tbody></table></figure>
+
+<h2><span id="实例">实例</span></h2><p>​        比如我们想要在后台运行<code>test.py</code>代码，只需在命令行输入：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">nohup python -u test.py &amp;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>​        如果仅仅如此使用<code>nohup</code>命令的话，程序的输出会默认重定向到一个<code>nohup.out</code>文件下。如果我们想要输出到指定文件，可另外指定输出文件：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">nohup .python -u test.py &gt; myout.txt </span><br></pre></td></tr></tbody></table></figure>
+
+<p>​        这样一来，把标准输出/错误重定向到指定目录下。</p>
+<p>​        当我们想关闭nohup进程时，需要用<code>top</code>找到进程对应的<code>pid</code>，然后使用<code>kill</code>命令，关闭该进程。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">kill -9 PID		</span><br></pre></td></tr></tbody></table></figure>
+
+]]></content>
       <categories>
-          
-          <category> Linux </category>
-          
+        <category>Linux</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> Linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
 </search>
