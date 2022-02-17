@@ -42,14 +42,14 @@ up（不挂起），用于在系统后台不挂断地运行命令，退出终端
       </tags>
   </entry>
   <entry>
-    <title>多元回归分析笔记</title>
-    <url>/2022/02/15/%E5%A4%9A%E5%85%83%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/</url>
+    <title>多元统计分析笔记</title>
+    <url>/2022/02/17/%E5%A4%9A%E5%85%83%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[]]></content>
       <categories>
-        <category>多元回归</category>
+        <category>多元统计分析</category>
       </categories>
       <tags>
-        <tag>多元回归</tag>
+        <tag>多元统计分析</tag>
         <tag>学习笔记</tag>
       </tags>
   </entry>
@@ -66,18 +66,6 @@ up（不挂起），用于在系统后台不挂断地运行命令，退出终端
       </tags>
   </entry>
   <entry>
-    <title>生存分析笔记</title>
-    <url>/2022/02/15/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>生存分析</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-        <tag>生存分析</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>时间序列学习笔记</title>
     <url>/2022/02/12/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[]]></content>
@@ -87,6 +75,18 @@ up（不挂起），用于在系统后台不挂断地运行命令，退出终端
       <tags>
         <tag>学习笔记</tag>
         <tag>时间序列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>生存分析笔记</title>
+    <url>/2022/02/15/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>生存分析</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>生存分析</tag>
       </tags>
   </entry>
 </search>
