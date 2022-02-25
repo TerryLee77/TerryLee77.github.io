@@ -1,140 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>多元统计分析笔记</title>
-      <link href="/2022/02/17/%E5%A4%9A%E5%85%83%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/"/>
-      <url>/2022/02/17/%E5%A4%9A%E5%85%83%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
+<search>
+  <entry>
+    <title>GRU介绍</title>
+    <url>/2022/02/21/GRU%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Oracle安装教程</title>
+    <url>/2022/02/18/Oracle%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p>​        本文将介绍<code>Oracle 11g</code>   在Windows、Docker下安装方法。</p>
+<h1><span id="windows">Windows</span></h1><p>​        <code>Windows</code>下安装<code>Oracle</code>比较简单，下载地址为:<a href="https://www.oracle.com/cn/database/technologies/microsoft-windows.html%EF%BC%8C%E4%B8%8B%E8%BD%BD%E4%B8%A4%E4%B8%AA%E5%AE%89%E8%A3%85%E5%8C%85%E5%90%8E%EF%BC%8C%E6%94%BE%E5%85%A5%E5%90%8C%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9%E5%90%8E%E7%82%B9%E5%87%BB%60setup.exe%60%EF%BC%8C%E8%BF%9B%E8%A1%8C%E5%AE%89%E8%A3%85%E3%80%82">https://www.oracle.com/cn/database/technologies/microsoft-windows.html，下载两个安装包后，放入同一个文件夹后点击`setup.exe`，进行安装。</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225093813064.png" alt="setup"></p>
+<p>​            其他安装过程比较简单，不做说明，网上教程也比较丰富，比如<a href="https://www.cnblogs.com/liuhongfeng/p/5267549.html%E7%AD%89%E5%8D%9A%E5%AE%A2%E3%80%82">https://www.cnblogs.com/liuhongfeng/p/5267549.html等博客。</a></p>
+<h1><span id="docker">Docker</span></h1><p>​        下面介绍在windows环境下使用<code>Docker</code>安装<code>Oracle11g</code>。</p>
+<ol>
+<li><p>确保自己电脑为<strong>windows专业版</strong>，这样才能打开开启windows自带的<strong>Hyer-V</strong>功能。</p>
+</li>
+<li><p>随后打开<strong>Hyper-V</strong>功能，具体路径为控制面板 $\rightarrow$程序$\rightarrow$程序和功能，也可以直接在开始界面搜索程序和功能打开，开启<strong>Hyper-V</strong>功能。。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225094900898.png" alt="image-20220225094900898"></p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225094926077.png" alt="image-20220225094926077"></p>
+<p>​        </p>
+<ol start="3">
+<li>前往<a href="https://www.docker.com/products/docker-desktop"><strong>Docker</strong>官网</a>下载Docker for windows客户端，并进行安装</li>
+<li>打开<code>终端</code>或者<code>Powershell</code>，<code>cmd</code>输入</li>
+</ol>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker search oracle</span><br></pre></td></tr></tbody></table></figure>
+
+<p>​        查找oracle镜像</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225095444499.png" alt="image-20220225095444499"></p>
+<ol start="5">
+<li>网上教程均是推荐安装第二个<code>jaspeen/oracle-11g</code>，但是这是基于<code>Centos6.5</code>系统搭建的，而该系统已于2020年停止服务，无法更新，会对后续安装带来一定不便，此处我们安装第一个，输入命令拉去镜像</li>
+</ol>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker pull wnameless/oracle<span class="literal">-xe</span><span class="literal">-11g</span><span class="literal">-r2</span></span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="6">
+<li>输入命令查看已经安装好的镜像</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225100038719.png" alt="image-20220225100038719"></p>
+<ol start="7">
+<li>启动容器，并重命名，将1521端口映射至本机的1521端口</li>
+</ol>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker run <span class="literal">-d</span> <span class="literal">-p</span> <span class="number">1522</span>:<span class="number">22</span> <span class="literal">-p</span> <span class="number">1521</span>:<span class="number">1521</span> -<span class="literal">-name</span> oracle11gr2 wnameless/oracle<span class="literal">-xe</span><span class="literal">-11g</span><span class="literal">-r2</span></span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="8">
+<li>开机</li>
+</ol>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker <span class="built_in">start</span> oracle11gr2</span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="9">
+<li>因为18.04版本后移除了ssh功能，此处需要用<code>exec</code>命令进入容器配置</li>
+</ol>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker exec <span class="literal">-it</span> oracle11gr2 bash</span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="10">
+<li>进入oracle服务</li>
+</ol>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">sqlplus /nolog</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225100731354.png" alt="image-20220225100731354"></p>
+<ol start="11">
+<li><p>在本容器中，<code>sys</code>和<code>system</code>的口令均为<code>oracle</code></p>
+</li>
+<li><p>尝试进入<code>sys</code>用户</p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225100911180.png" alt="image-20220225100911180"></p>
+<p>安装过程已经结束，如果想关闭容器，在命令行输入即可</p>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker <span class="built_in">kill</span> oracle11gr2</span><br></pre></td></tr></tbody></table></figure>
+
+<h1><span id="参考">参考</span></h1><ul>
+<li>[1] <a href="https://github.com/wnameless/docker-oracle-xe-11g">https://github.com/wnameless/docker-oracle-xe-11g</a></li>
+</ul>
+]]></content>
       <categories>
-          
-          <category> 多元统计分析 </category>
-          
+        <category>数据库</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 多元统计分析 </tag>
-            
-            <tag> 学习笔记 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>生存分析 Introduction</title>
-      <link href="/2022/02/15/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%20Introduction/"/>
-      <url>/2022/02/15/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%20Introduction/</url>
-      
-        <content type="html"><![CDATA[<p>​        在生物医学研究中，生存分析是非常重要和常见的分析方法。本博客将基于 学习生存分析。</p><h1><span id="survival-analysis-定义">Survival Analysis 定义</span></h1><p>​        生存分析的定义为：<strong>Survival analysis is a collection of statistical procedures for data analysis for which the outcome variable of interest is time until an event occurs.</strong></p><h1><span id="删失数据-censored-data">删失数据 Censored data</span></h1><p>​</p>]]></content>
-      
-      
+      <tags>
+        <tag>数据库</tag>
+        <tag>学习笔记</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nohup命令</title>
+    <url>/2022/01/29/nohup%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1><span id="nohup命令用法"><code>nohup</code>命令用法</span></h1><p>​        我们在使用Linux的时候，希望让某个程序在后台运行。在命令的末尾加个&amp;符号后，程序可以在后台运行，但是一旦当前终端关闭（即退出当前帐户），该程序就会停止运行。那假如说我们想要退出当前终端，但又想让程序在后台运行，该如何处理呢？比如我们想讲任务提交到服务器运行，在这种情况下我们就可以使用<code>nohup</code>命令。</p>
+<p>​        <code>nohup</code> 英文全称 no hang up（不挂起），用于在系统后台不挂断地运行命令，退出终端不会影响程序的运行。</p>
+<h2><span id="语法格式">语法格式</span></h2><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">nohup Command [ Arg … ] [　&amp; ]</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li><p><strong>Command</strong>：要执行的命令。</p>
+</li>
+<li><p><strong>Arg</strong>：一些参数，可以指定输出文件。</p>
+</li>
+<li><p>**&amp;**：让命令在后台执行，终端退出后命令仍旧执行。</p>
+</li>
+</ul>
+<p>​        无论是否将 <code>nohup</code> 命令的输出重定向到终端，输出都将附加到当前目录的 <code>nohup.out </code>文件中。如果当前目录的 <code>nohup.out</code> 文件不可写，输出重定向到 <code>$HOME/nohup.out </code>文件中。</p>
+<p>​        可以使用<code>nohup --help</code>获得帮助，更多<code>OPTION</code>如下：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">--help</span><br><span class="line"> 显示帮助信息并退出</span><br><span class="line">--version</span><br><span class="line"> 显示版本信息并退出</span><br></pre></td></tr></tbody></table></figure>
+
+<h2><span id="实例">实例</span></h2><p>​        比如我们想要在后台运行<code>test.py</code>代码，只需在命令行输入：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">nohup python -u test.py &amp;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>​        如果仅仅如此使用<code>nohup</code>命令的话，程序的输出会默认重定向到一个<code>nohup.out</code>文件下。如果我们想要输出到指定文件，可另外指定输出文件：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">nohup .python -u test.py &gt; myout.txt </span><br></pre></td></tr></tbody></table></figure>
+
+<p>​        这样一来，把标准输出/错误重定向到指定目录下。</p>
+<p>​        当我们想关闭nohup进程时，需要用<code>top</code>找到进程对应的<code>pid</code>，然后使用<code>kill</code>命令，关闭该进程。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">kill -9 PID		</span><br></pre></td></tr></tbody></table></figure>
+
+]]></content>
       <categories>
-          
-          <category> 生存分析 </category>
-          
+        <category>Linux</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> 生存分析 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>数据库笔记</title>
-      <link href="/2022/02/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B0/"/>
-      <url>/2022/02/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Oracle解锁scott账户教程</title>
+    <url>/2022/02/25/Oracle%E8%A7%A3%E9%94%81scott%E8%B4%A6%E6%88%B7%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[]]></content>
       <categories>
-          
-          <category> 数据库 </category>
-          
+        <category>数据库</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> 数据库 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>时间序列学习笔记</title>
-      <link href="/2022/02/12/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-      <url>/2022/02/12/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
+      <tags>
+        <tag>数据库</tag>
+        <tag>学习笔记</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多元统计分析笔记</title>
+    <url>/2022/02/17/%E5%A4%9A%E5%85%83%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[]]></content>
       <categories>
-          
-          <category> 时间序列 </category>
-          
+        <category>多元统计分析</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> 时间序列 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>nohup命令</title>
-      <link href="/2022/01/29/nohup%E5%91%BD%E4%BB%A4/"/>
-      <url>/2022/01/29/nohup%E5%91%BD%E4%BB%A4/</url>
-      
-        <content type="html"><![CDATA[<h1><span id="nohup命令用法"><code>nohup</code>命令用法</span></h1><p>​        我们在使用Linux的时候，希望让某个程序在后台运行。在命令的末尾加个&amp;符号后，程序可以在后台运行，但是一旦当前终端关闭（即退出当前帐户），该程序就会停止运行。那假如说我们想要退出当前终端，但又想让程序在后台运行，该如何处理呢？比如我们想讲任务提交到服务器运行，在这种情况下我们就可以使用<code>nohup</code>命令。</p><p>​        <code>nohup</code> 英文全称 no hang up（不挂起），用于在系统后台不挂断地运行命令，退出终端不会影响程序的运行。</p><h2><span id="语法格式">语法格式</span></h2><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup Command [ Arg … ] [　&amp; ]</span><br></pre></td></tr></tbody></table></figure><ul><li><p><strong>Command</strong>：要执行的命令。</p></li><li><p><strong>Arg</strong>：一些参数，可以指定输出文件。</p></li><li><p>**&amp;**：让命令在后台执行，终端退出后命令仍旧执行。</p></li></ul><p>​        无论是否将 <code>nohup</code> 命令的输出重定向到终端，输出都将附加到当前目录的 <code>nohup.out </code>文件中。如果当前目录的 <code>nohup.out</code> 文件不可写，输出重定向到 <code>$HOME/nohup.out </code>文件中。</p><p>​        可以使用<code>nohup --help</code>获得帮助，更多<code>OPTION</code>如下：</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">--help</span><br><span class="line"> 显示帮助信息并退出</span><br><span class="line">--version</span><br><span class="line"> 显示版本信息并退出</span><br></pre></td></tr></tbody></table></figure><h2><span id="实例">实例</span></h2><p>​        比如我们想要在后台运行<code>test.py</code>代码，只需在命令行输入：</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup python -u test.py &amp;</span><br></pre></td></tr></tbody></table></figure><p>​        如果仅仅如此使用<code>nohup</code>命令的话，程序的输出会默认重定向到一个<code>nohup.out</code>文件下。如果我们想要输出到指定文件，可另外指定输出文件：</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup .python -u test.py &gt; myout.txt </span><br></pre></td></tr></tbody></table></figure><p>​        这样一来，把标准输出/错误重定向到指定目录下。</p><p>​        当我们想关闭nohup进程时，需要用<code>top</code>找到进程对应的<code>pid</code>，然后使用<code>kill</code>命令，关闭该进程。</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 PID</span><br></pre></td></tr></tbody></table></figure>]]></content>
-      
-      
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>多元统计分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库笔记</title>
+    <url>/2022/02/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[]]></content>
       <categories>
-          
-          <category> Linux </category>
-          
+        <category>数据库</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> Linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>数据库</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库第一周</title>
+    <url>/2022/02/18/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%B8%80%E5%91%A8/</url>
+    <content><![CDATA[<p>​    数据科学<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220218151936580.png" alt="image-20220218151936580"></p>
+<h3><span id="名词含义">名词含义</span></h3><ul>
+<li>OLTP :  Online Transection Processing</li>
+<li>OLAP : Online Analysis Processing </li>
+<li>ETL : Extract Transform Local</li>
+</ul>
+<h3><span id="什么是数据库">什么是数据库</span></h3><p>数据存放的演变：变量存放 — 数据文件存放 — 分化出专业的dbms(Database Manage System)</p>
+<p>数据库的核心问题：</p>
+<p>1.数据怎样存储的问题（存储引擎） </p>
+<p>2.数据怎样快速定位的问题（索引） </p>
+<p>3.数据怎样查询和维护的问题（操作命令的解析）</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>时间序列学习笔记</title>
+    <url>/2022/02/12/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>时间序列</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>时间序列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>生存分析 Introduction</title>
+    <url>/2022/02/15/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%20Introduction/</url>
+    <content><![CDATA[<p>​        在生物医学研究中，生存分析是非常重要和常见的分析方法。本博客将基于 学习生存分析。</p>
+<h1><span id="survival-analysis-定义">Survival Analysis 定义</span></h1><p>​        生存分析的定义为：<strong>Survival analysis is a collection of statistical procedures for data analysis for which the outcome variable of interest is time until an event occurs.</strong></p>
+<h1><span id="删失数据-censored-data">删失数据 Censored data</span></h1><p>​</p>
+]]></content>
+      <categories>
+        <category>生存分析</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>生存分析</tag>
+      </tags>
+  </entry>
 </search>
