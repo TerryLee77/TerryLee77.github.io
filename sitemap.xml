@@ -2,6 +2,15 @@
 <urlset xmlns="https://terrylee77.github.io/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://terrylee77.github.io/2022/03/05/RMD%E4%BD%BF%E7%94%A8%E5%A4%96%E9%93%BE%E5%9B%BE%E7%89%87%E6%95%99%E7%A8%8B/</loc>
+    
+    <lastmod>2022-03-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://terrylee77.github.io/2022/03/04/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%B8%89%E5%91%A8%E7%BB%83%E4%B9%A0/</loc>
     
     <lastmod>2022-03-04</lastmod>
@@ -139,7 +148,7 @@
 
   <url>
     <loc>https://terrylee77.github.io/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -147,56 +156,63 @@
   
   <url>
     <loc>https://terrylee77.github.io/tags/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://terrylee77.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://terrylee77.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://terrylee77.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://terrylee77.github.io/tags/Linux/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://terrylee77.github.io/tags/Oracle/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://terrylee77.github.io/tags/%E5%A4%9A%E5%85%83%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://terrylee77.github.io/tags/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://terrylee77.github.io/tags/R/</loc>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -205,35 +221,42 @@
   
   <url>
     <loc>https://terrylee77.github.io/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://terrylee77.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://terrylee77.github.io/categories/%E5%A4%9A%E5%85%83%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://terrylee77.github.io/categories/Linux/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://terrylee77.github.io/categories/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2022-03-04</lastmod>
+    <lastmod>2022-03-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://terrylee77.github.io/categories/R/</loc>
+    <lastmod>2022-03-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
