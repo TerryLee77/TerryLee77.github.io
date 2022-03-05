@@ -96,6 +96,44 @@ the length of the subsequence.</p>
       </tags>
   </entry>
   <entry>
+    <title>RMD使用外链图片教程</title>
+    <url>/2022/03/05/RMD%E4%BD%BF%E7%94%A8%E5%A4%96%E9%93%BE%E5%9B%BE%E7%89%87%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p>​ 在使用<code>R
+Markdown</code>时插入本地图片十分方便，只需输入格式为<code>![图片说明](图/片/路/径)</code>，注意图片路径中为正斜杠而不是反斜杠，包含文件名本身。如果图片所在位置就在项目所在文件夹，在文件名前加点与斜杠，如<code>![图片说明示例](./fig.png)</code></p>
+<p>​ 如果想控制图片的显示尺寸，可以用下面的方式：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">```{r echo=FALSE, fig.cap="插入本地图片", out.width = '30%'}</span><br><span class="line">knitr::include_graphics("./fig.png")</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure>
+<p>​ 显示为:</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220305161100182.png" alt="image-20220305161100182">
+<figcaption aria-hidden="true">image-20220305161100182</figcaption>
+</figure>
+<p>在上面的方法中，将路径名改为网址，还可以插入来自网络的图片（以及本地或网络的gif动图），如</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">```{r echo=FALSE, fig.cap="来自网络的图片", out.width = '30%'}</span><br><span class="line">knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/aee91187a9c6811a802ddc524c3271302893a149/a7003/images/bandthree2.png")</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure>
+<p>​ 显示为:</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220305161113958.png" alt="image-20220305161113958">
+<figcaption aria-hidden="true">image-20220305161113958</figcaption>
+</figure>
+<p>​
+但插入来自网络的图片会在导出为PDF时出错，无法正常导出，此时需要采用<code>URL</code>包进行辅佐导出</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">```{r, echo=FALSE, message=F, warning=F, fig.align="center"}</span><br><span class="line"># Define variable containing url</span><br><span class="line">url &lt;- "http://www.online-image-editor.com//styles/2014/images/example_image.png"</span><br><span class="line">library(png)</span><br><span class="line">library(RCurl)</span><br><span class="line">url_cont &lt;- getURLContent(url)</span><br><span class="line">img &lt;- readPNG(url_cont)</span><br><span class="line">rimg &lt;- as.raster(img) # raster multilayer object</span><br><span class="line">r &lt;- nrow(rimg) / ncol(rimg) # image ratio</span><br><span class="line">plot(rimg)</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure>
+<p>​ 此时就能正常导出PDF文件，但可能会造成编译时间较长等问题。</p>
+<p><strong>参考</strong></p>
+<ul>
+<li>https://community.rstudio.com/t/not-able-to-get-an-image-into-word-pdf-from-url-in-rmarkdown/15855/11</li>
+<li>https://d.cosx.org/d/422426-rmarkdownpdf</li>
+<li>https://bookdown.org/xiao/RAnalysisBook/r-markdown.html</li>
+</ul>
+]]></content>
+      <categories>
+        <category>R</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>R</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux添加Oracle11g scott账户教程</title>
     <url>/2022/02/25/Linux%E6%B7%BB%E5%8A%A0Oracle11g%20scott%E8%B4%A6%E6%88%B7%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<p>​ 本文将介绍Linux下添加Oracle11g <strong>scott</strong>账户</p>
@@ -234,18 +272,6 @@ for windows客户端，并进行安装</li>
       </tags>
   </entry>
   <entry>
-    <title>多元统计分析笔记</title>
-    <url>/2022/02/17/%E5%A4%9A%E5%85%83%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>多元统计分析</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-        <tag>多元统计分析</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nohup命令</title>
     <url>/2022/01/29/nohup%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h1><span id="nohup命令用法"><code>nohup</code>命令用法</span></h1>
@@ -284,6 +310,18 @@ up（不挂起），用于在系统后台不挂断地运行命令，退出终端
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多元统计分析笔记</title>
+    <url>/2022/02/17/%E5%A4%9A%E5%85%83%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>多元统计分析</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>多元统计分析</tag>
       </tags>
   </entry>
   <entry>
@@ -879,44 +917,6 @@ of interest is time until an event occurs.</strong></p>
       <tags>
         <tag>学习笔记</tag>
         <tag>生存分析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>RMD使用外链图片教程</title>
-    <url>/2022/03/05/RMD%E4%BD%BF%E7%94%A8%E5%A4%96%E9%93%BE%E5%9B%BE%E7%89%87%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<p>​ 在使用<code>R
-Markdown</code>时插入本地图片十分方便，只需输入格式为<code>![图片说明](图/片/路/径)</code>，注意图片路径中为正斜杠而不是反斜杠，包含文件名本身。如果图片所在位置就在项目所在文件夹，在文件名前加点与斜杠，如<code>![图片说明示例](./fig.png)</code></p>
-<p>​ 如果想控制图片的显示尺寸，可以用下面的方式：</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">```{r echo=FALSE, fig.cap="插入本地图片", out.width = '30%'}</span><br><span class="line">knitr::include_graphics("./fig.png")</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure>
-<p>​ 显示为:</p>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220305161100182.png" alt="image-20220305161100182">
-<figcaption aria-hidden="true">image-20220305161100182</figcaption>
-</figure>
-<p>在上面的方法中，将路径名改为网址，还可以插入来自网络的图片（以及本地或网络的gif动图），如</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">```{r echo=FALSE, fig.cap="来自网络的图片", out.width = '30%'}</span><br><span class="line">knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/aee91187a9c6811a802ddc524c3271302893a149/a7003/images/bandthree2.png")</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure>
-<p>​ 显示为:</p>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220305161113958.png" alt="image-20220305161113958">
-<figcaption aria-hidden="true">image-20220305161113958</figcaption>
-</figure>
-<p>​
-但插入来自网络的图片会在导出为PDF时出错，无法正常导出，此时需要采用<code>URL</code>包进行辅佐导出</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">```{r, echo=FALSE, message=F, warning=F, fig.align="center"}</span><br><span class="line"># Define variable containing url</span><br><span class="line">url &lt;- "http://www.online-image-editor.com//styles/2014/images/example_image.png"</span><br><span class="line">library(png)</span><br><span class="line">library(RCurl)</span><br><span class="line">url_cont &lt;- getURLContent(url)</span><br><span class="line">img &lt;- readPNG(url_cont)</span><br><span class="line">rimg &lt;- as.raster(img) # raster multilayer object</span><br><span class="line">r &lt;- nrow(rimg) / ncol(rimg) # image ratio</span><br><span class="line">plot(rimg)</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure>
-<p>​ 此时就能正常导出PDF文件，但可能会造成编译时间较长等问题。</p>
-<p><strong>参考</strong></p>
-<ul>
-<li>https://community.rstudio.com/t/not-able-to-get-an-image-into-word-pdf-from-url-in-rmarkdown/15855/11</li>
-<li>https://d.cosx.org/d/422426-rmarkdownpdf</li>
-<li>https://bookdown.org/xiao/RAnalysisBook/r-markdown.html</li>
-</ul>
-]]></content>
-      <categories>
-        <category>R</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-        <tag>R</tag>
       </tags>
   </entry>
 </search>
