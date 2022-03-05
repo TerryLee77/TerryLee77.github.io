@@ -1,376 +1,922 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>RMD使用外链图片教程</title>
-      <link href="/2022/03/05/RMD%E4%BD%BF%E7%94%A8%E5%A4%96%E9%93%BE%E5%9B%BE%E7%89%87%E6%95%99%E7%A8%8B/"/>
-      <url>/2022/03/05/RMD%E4%BD%BF%E7%94%A8%E5%A4%96%E9%93%BE%E5%9B%BE%E7%89%87%E6%95%99%E7%A8%8B/</url>
-      
-        <content type="html"><![CDATA[<p>​ 在使用<code>RMarkdown</code>时插入本地图片十分方便，只需输入格式为<code>![图片说明](图/片/路/径)</code>，注意图片路径中为正斜杠而不是反斜杠，包含文件名本身。如果图片所在位置就在项目所在文件夹，在文件名前加点与斜杠，如<code>![图片说明示例](./fig.png)</code></p><p>​ 如果想控制图片的显示尺寸，可以用下面的方式：</p><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```{r echo=FALSE, fig.cap="插入本地图片", out.width = '30%'}</span><br><span class="line">knitr::include_graphics("./fig.png")</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure><p>​ 显示为:</p><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220305161100182.png" alt="image-20220305161100182"><figcaption aria-hidden="true">image-20220305161100182</figcaption></figure><p>在上面的方法中，将路径名改为网址，还可以插入来自网络的图片（以及本地或网络的gif动图），如</p><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```{r echo=FALSE, fig.cap="来自网络的图片", out.width = '30%'}</span><br><span class="line">knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/aee91187a9c6811a802ddc524c3271302893a149/a7003/images/bandthree2.png")</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure><p>​ 显示为:</p><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220305161113958.png" alt="image-20220305161113958"><figcaption aria-hidden="true">image-20220305161113958</figcaption></figure><p>​但插入来自网络的图片会在导出为PDF时出错，无法正常导出，此时需要采用<code>URL</code>包进行辅佐导出</p><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">```{r, echo=FALSE, message=F, warning=F, fig.align="center"}</span><br><span class="line"># Define variable containing url</span><br><span class="line">url &lt;- "http://www.online-image-editor.com//styles/2014/images/example_image.png"</span><br><span class="line">library(png)</span><br><span class="line">library(RCurl)</span><br><span class="line">url_cont &lt;- getURLContent(url)</span><br><span class="line">img &lt;- readPNG(url_cont)</span><br><span class="line">rimg &lt;- as.raster(img) # raster multilayer object</span><br><span class="line">r &lt;- nrow(rimg) / ncol(rimg) # image ratio</span><br><span class="line">plot(rimg)</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure><p>​ 此时就能正常导出PDF文件，但可能会造成编译时间较长等问题。</p><p><strong>参考</strong></p><ul><li>https://community.rstudio.com/t/not-able-to-get-an-image-into-word-pdf-from-url-in-rmarkdown/15855/11</li><li>https://d.cosx.org/d/422426-rmarkdownpdf</li><li>https://bookdown.org/xiao/RAnalysisBook/r-markdown.html</li></ul>]]></content>
-      
-      
+<search>
+  <entry>
+    <title>GRU Introduction</title>
+    <url>/2022/02/21/GRU%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>​ Gated recurrent units (GRUs) are a gating mechanism in recurrent
+neural networks, introduced in 2014 by Kyunghyun Cho et al. GRU is a
+very effective variant of LSTM network, which is simpler and more
+effective than the structure of LSTM network. It combines the forget
+gate and the input gate into a single "update gate". It also combines
+cell state and hidden state, and makes some other changes. The resulting
+model is simpler than the standard LSTM model. Detailed description
+below.</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220221105152231.png" alt="GRU structure">
+<figcaption aria-hidden="true">GRU structure</figcaption>
+</figure>
+<p>​ The first thing we need to introduce are the reset gate and the
+update gate. We engineer them to be vectors with entries in (0,1) such
+that we can perform convex combinations. For instance, a reset gate
+would allow us to control how much of the previous state we might still
+want to remember. Likewise, an update gate would allow us to control how
+much of the new state is just a copy of the old state. Given the input
+of the current time step and the hidden state of the previous time step.
+The outputs of two gates are given by two fully-connected layers with a
+sigmoid activation function.</p>
+<p>​ Mathematically, for a given time step <span class="math inline">\(t\)</span>, suppose that the input is a minibatch
+<span class="math inline">\(\mathbf{X}_{t} \in \mathbb{R}^{n \times
+d}\)</span> (number of examples: <span class="math inline">\(n\)</span>,
+number of inputs: <span class="math inline">\(d\)</span> ) and the
+hidden state of the previous time step is <span class="math inline">\(\mathbf{H}_{t-1} \in \mathbb{R}^{n \times
+h}\)</span> (number of hidden units: <span class="math inline">\(h\)</span> ). Then, the reset gate <span class="math inline">\(\mathbf{R}_{t} \in \mathbb{R}^{n \times
+h}\)</span> and update gate <span class="math inline">\(\mathbf{Z}_{t}
+\in \mathbb{R}^{n \times h}\)</span> are computed as follows: <span class="math display">\[
+\begin{aligned}
+\mathbf{R}_{t} &amp;=\sigma\left(\mathbf{X}_{t} \mathbf{W}_{x
+r}+\mathbf{H}_{t-1} \mathbf{W}_{h r}+\mathbf{b}_{r}\right) \\
+\mathbf{Z}_{t} &amp;=\sigma\left(\mathbf{X}_{t} \mathbf{W}_{x
+z}+\mathbf{H}_{t-1} \mathbf{W}_{h z}+\mathbf{b}_{z}\right)
+\end{aligned}
+\]</span> where <span class="math inline">\(\mathbf{W}_{x r},
+\mathbf{W}_{x z} \in \mathbb{R}^{d \times h}\)</span> and <span class="math inline">\(\mathbf{W}_{h r}, \mathbf{W}_{h z} \in
+\mathbb{R}^{h \times h}\)</span> are weight parameters and <span class="math inline">\(\mathbf{b}_{r}, \mathbf{b}_{z} \in \mathbb{R}^{1
+\times h}\)</span> are biases. And we use sigmoid function to transform
+input values to the interval <span class="math inline">\((0,1)\)</span>
+<span class="math display">\[
+\sigma(x) = \frac{e^x}{1+e^{x}}
+\]</span> ​ Next, let us integrate the reset gate <span class="math inline">\(\mathbf{R}_{t}\)</span> with the regular latent
+state updating mechanism in (8.4.5). It leads to the following candidate
+hidden state <span class="math inline">\(\tilde{\mathbf{H}}_{t} \in
+\mathbb{R}^{n \times h}\)</span> at time step <span class="math inline">\(t\)</span> : <span class="math display">\[
+\tilde{\mathbf{H}}_{t}=\tanh \left(\mathbf{X}_{t} \mathbf{W}_{x
+h}+\left(\mathbf{R}_{t} \odot \mathbf{H}_{t-1}\right) \mathbf{W}_{h
+h}+\mathbf{b}_{h}\right),
+\]</span> where <span class="math inline">\(\mathbf{W}_{x h} \in
+\mathbb{R}^{d \times h}\)</span> and <span class="math inline">\(\mathbf{W}_{h h} \in \mathbb{R}^{h \times
+h}\)</span> are weight parameters, <span class="math inline">\(\mathbf{b}_{h} \in \mathbb{R}^{1 \times
+h}\)</span> is the bias, and the symbol <span class="math inline">\(\odot\)</span> is the Hadamard (elementwise)
+product operator. Here we use a nonlinearity in the form of tanh to
+ensure that the values in the candidate hidden state remain in the
+interval <span class="math inline">\((-1,1)\)</span>. <span class="math display">\[
+tanh(x) = \frac{sin(x)}{cos(x)} = \frac{e^x-e^{-x}}{e^x+x^{-x}}
+\]</span> ​ Finally, we need to incorporate the effect of the update
+gate <span class="math inline">\(\mathbf{Z}_{t}\)</span>. This
+determines the extent to which the new hidden state <span class="math inline">\(\mathbf{H}_{t} \in \mathbb{R}^{n \times
+h}\)</span> is just the old state <span class="math inline">\(\mathbf{H}_{t-1}\)</span> and by how much the new
+candidate state <span class="math inline">\(\tilde{\mathbf{H}}_{t}\)</span> is used. The
+update gate <span class="math inline">\(\mathbf{Z}_{t}\)</span> can be
+used for this purpose, simply by taking elementwise convex combinations
+between both <span class="math inline">\(\mathbf{H}_{t-1}\)</span> and
+<span class="math inline">\(\tilde{\mathbf{H}}_{t}\)</span>. This leads
+to the final update equation for the GRU: <span class="math display">\[
+\mathbf{H}_{t}=\mathbf{Z}_{t} \odot
+\mathbf{H}_{t-1}+\left(1-\mathbf{Z}_{t}\right) \odot
+\tilde{\mathbf{H}}_{t}
+\]</span> ​ Whenever the update gate <span class="math inline">\(\mathbf{Z}_{t}\)</span> is close to 1 , we simply
+retain the old state. In this case the information from <span class="math inline">\(\mathbf{X}_{t}\)</span> is essentially ignored,
+effectively skipping time step <span class="math inline">\(t\)</span> in
+the dependency chain. In contrast, whenever <span class="math inline">\(\mathbf{Z}_{t}\)</span> is close to 0 , the new
+latent state <span class="math inline">\(\mathbf{H}_{t}\)</span>
+approaches the candidate latent state <span class="math inline">\(\tilde{\mathbf{H}}_{t}\)</span>. These designs can
+help us cope with the vanishing gradient problem in RNNs and better
+capture dependencies for sequences with large time step distances. For
+instance, if the update gate has been close to 1 for all the time steps
+of an entire subsequence, the old hidden state at the time step of its
+beginning will be easily retained and passed to its end, regardless of
+the length of the subsequence.</p>
+]]></content>
       <categories>
-          
-          <category> R </category>
-          
+        <category>时间序列</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> R </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>数据库第三周练习</title>
-      <link href="/2022/03/04/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%B8%89%E5%91%A8%E7%BB%83%E4%B9%A0/"/>
-      <url>/2022/03/04/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%B8%89%E5%91%A8%E7%BB%83%E4%B9%A0/</url>
-      
-        <content type="html"><![CDATA[<h1><span id="sql语句练习"><code>SQL</code>语句练习</span></h1><ul><li>显示员工的姓名和雇佣时间，要求中文时间格式，即“2012 年 9 月 26日”这样的形式（要求不出现 09 月，把 0 去掉）</li></ul><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(HIREDATE,<span class="string">'yyyy"年"fmmm"月"dd"日"'</span>),ENAME <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304142332474.png" alt="image-20220304142332474"><figcaption aria-hidden="true">image-20220304142332474</figcaption></figure><ul><li>显示员工的姓名和总收入，总收入以美元符号$开头，带小数点后两位</li></ul><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ENAME,to_char(NVL(COMM,<span class="number">0</span>)<span class="operator">+</span>SAL,<span class="string">'$99999.99'</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304142612112.png" alt="image-20220304142612112"><figcaption aria-hidden="true">image-20220304142612112</figcaption></figure><ul><li>假设每位员工在进入公司满 10 年后的第一个 4 月 1日，会给他发放“优质服务奖”，请列出每位员工的获奖时间</li></ul><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(<span class="keyword">case</span> <span class="keyword">when</span> <span class="built_in">extract</span>(<span class="keyword">month</span>   <span class="keyword">from</span> (ADD_MONTHS(HIREDATE,<span class="number">120</span>))) <span class="operator">&lt;</span> <span class="number">4</span> <span class="keyword">then</span> ADD_MONTHS(trunc(ADD_MONTHS(HIREDATE,<span class="number">120</span>),<span class="string">'yyyy'</span>),<span class="number">3</span>) <span class="keyword">else</span> ADD_MONTHS(trunc(ADD_MONTHS(HIREDATE,<span class="number">120</span>),<span class="string">'yyyy'</span>),<span class="number">15</span>) <span class="keyword">end</span>,<span class="string">'yyyy-fmmm-dd'</span>) ,ename <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304165000952.png" alt="image-20220304165000952"><figcaption aria-hidden="true">image-20220304165000952</figcaption></figure><ul><li>列出员工号和姓名，所属部门名称，要求员工号用中文大写，例如“1234”输出为”壹贰叁肆"</li></ul><p>​ 构造函数：</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">translate</span>(rownum,<span class="string">'0123456789'</span>,<span class="string">'零壹贰叁肆伍陆柒捌玖'</span>) ID,ENAME,DNAME <span class="keyword">from</span> emp,dept <span class="keyword">where</span> dept.deptno<span class="operator">=</span>emp.deptno;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304155948380.png" alt="image-20220304155948380"><figcaption aria-hidden="true">image-20220304155948380</figcaption></figure><h1><span id="问题解答">问题解答</span></h1><ul><li>To_date如果没有指定时分秒，缺省的时分秒是？</li></ul><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(HIREDATE,<span class="string">'yyyy-fmmm-dd hh:mi:ss'</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304152119031.png" alt="image-20220304152119031"><figcaption aria-hidden="true">image-20220304152119031</figcaption></figure><p>​ 可以观察到，缺失默认值为12:00:00</p><ul><li>如果指定的年份是45，那产生1945年还是2045年？</li></ul><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TO_CHAR(TO_DATE(<span class="string">'45-01-01'</span>,<span class="string">'YY-MM-DD'</span>),<span class="string">'YYYY-MM-DD'</span>) <span class="keyword">FROM</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304152704096.png" alt="image-20220304152704096"><figcaption aria-hidden="true">image-20220304152704096</figcaption></figure><ul><li>中文字符有多长?</li></ul><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> length(<span class="string">'李'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304152824042.png" alt="image-20220304152824042"><figcaption aria-hidden="true">image-20220304152824042</figcaption></figure><p>​ 中文字符长度为1,中文(UTF-8)占3个字节。</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> lengthb(<span class="string">'李'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304153454649.png" alt="image-20220304153454649"><figcaption aria-hidden="true">image-20220304153454649</figcaption></figure><ul><li>中英混合的字符串，substr会乱套吗?</li></ul><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> substr(<span class="string">'124abd数据库'</span>,<span class="number">1</span>,<span class="number">1</span>)<span class="keyword">from</span> dual;</span><br><span class="line"><span class="keyword">select</span> substr(<span class="string">'124abd数据库'</span>,<span class="number">5</span>,<span class="number">1</span>)<span class="keyword">from</span> dual;</span><br><span class="line"><span class="keyword">select</span> substr(<span class="string">'124abd数据库'</span>,<span class="number">7</span>,<span class="number">1</span>)<span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304153202957.png" alt="image-20220304153202957"><figcaption aria-hidden="true">image-20220304153202957</figcaption></figure><ul><li>Varchar2（10）的字段，可以放5个中文字符还是10个</li></ul><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> simuhw3(name varchar2(<span class="number">10</span>));</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> simuhw3(name) <span class="keyword">values</span> (<span class="string">'数据库真难啊'</span>)</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304153912929.png" alt="image-20220304153912929"><figcaption aria-hidden="true">image-20220304153912929</figcaption></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304154531354.png" alt="image-20220304154531354"><figcaption aria-hidden="true">image-20220304154531354</figcaption></figure><p>​因为采用了UTF-8编码，只能容纳3个中文字符，若采用GBK编码，可以容纳5个。</p><h1><span id="数据泵">数据泵</span></h1><p>利用 Oracle 的“数据泵”功能 expdp/impdp 将上周创建的 500万行的表转移到另外一台服务器上。</p><p>先对原主机使用<code>sys</code>用户进行登录sqlplus，输入:</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_directories; </span><br></pre></td></tr></tbody></table></figure><p>查看可以访问目录对象，并创建<code>scott</code>可以访问对象</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> REPLACE DIRECTORY test_dir <span class="keyword">AS</span> <span class="string">'/u01/app/oracle/oradata/'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> READ, WRITE <span class="keyword">ON</span> DIRECTORY test_dir <span class="keyword">TO</span> scott;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304135034529.png" alt="image-20220304135034529"><figcaption aria-hidden="true">image-20220304135034529</figcaption></figure><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expdp scott/tiger@Xe tables=simuhw2 directory=TEST_DIR dumpfile=simuhw2.dmp logfile=expdpsimuhw2.log</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304135045366.png" alt="image-20220304135045366"><figcaption aria-hidden="true">image-20220304135045366</figcaption></figure><p>​可以看到，在<code>/u01/app/oracle/oradata/</code>目录中，已经存储了导出的文件</p><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304135158962.png" alt="image-20220304135158962"><figcaption aria-hidden="true">image-20220304135158962</figcaption></figure><p>​ 将其复制出来，拷贝到另一台机子</p><p>​ 同理，在拷贝对象机子同样执行上述操作</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> REPLACE DIRECTORY test_dir <span class="keyword">AS</span> <span class="string">'/u01/app/oracle/oradata/'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> READ, WRITE <span class="keyword">ON</span> DIRECTORY test_dir <span class="keyword">TO</span> scott;</span><br></pre></td></tr></tbody></table></figure><p>​ 执行</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impdp scott/tiger@Xe tables=simuhw2 directory=TEST_DIR dumpfile=simuhw2.dmp logfile=impdpsimuhw2.log</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304140341011.png" alt="image-20220304140341011"><figcaption aria-hidden="true">image-20220304140341011</figcaption></figure><p>检查是否成功导入</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conn scott<span class="operator">/</span>tiger</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> simuhw2;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304140447712.png" alt="image-20220304140447712"><figcaption aria-hidden="true">image-20220304140447712</figcaption></figure><p>​ 成功导入</p><h1><span id="参考">参考</span></h1><ul><li>https://oracle-base.com/articles/10g/oracle-data-pump-10g</li></ul>]]></content>
-      
-      
+      <tags>
+        <tag>时间序列</tag>
+        <tag>机器学习</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RMD使用外链图片教程</title>
+    <url>/2022/03/05/RMD%E4%BD%BF%E7%94%A8%E5%A4%96%E9%93%BE%E5%9B%BE%E7%89%87%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p>​ 在使用<code>R
+Markdown</code>时插入本地图片十分方便，只需输入格式为<code>![图片说明](图/片/路/径)</code>，注意图片路径中为正斜杠而不是反斜杠，包含文件名本身。如果图片所在位置就在项目所在文件夹，在文件名前加点与斜杠，如<code>![图片说明示例](./fig.png)</code></p>
+<p>​ 如果想控制图片的显示尺寸，可以用下面的方式：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">```{r echo=FALSE, fig.cap="插入本地图片", out.width = '30%'}</span><br><span class="line">knitr::include_graphics("./fig.png")</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure>
+<p>​ 显示为:</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220305161100182.png" alt="image-20220305161100182">
+<figcaption aria-hidden="true">image-20220305161100182</figcaption>
+</figure>
+<p>在上面的方法中，将路径名改为网址，还可以插入来自网络的图片（以及本地或网络的gif动图），如</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">```{r echo=FALSE, fig.cap="来自网络的图片", out.width = '30%'}</span><br><span class="line">knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/aee91187a9c6811a802ddc524c3271302893a149/a7003/images/bandthree2.png")</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure>
+<p>​ 显示为:</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220305161113958.png" alt="image-20220305161113958">
+<figcaption aria-hidden="true">image-20220305161113958</figcaption>
+</figure>
+<p>​
+但插入来自网络的图片会在导出为PDF时出错，无法正常导出，此时需要采用<code>URL</code>包进行辅佐导出</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">```{r, echo=FALSE, message=F, warning=F, fig.align="center"}</span><br><span class="line"># Define variable containing url</span><br><span class="line">url &lt;- "http://www.online-image-editor.com//styles/2014/images/example_image.png"</span><br><span class="line">library(png)</span><br><span class="line">library(RCurl)</span><br><span class="line">url_cont &lt;- getURLContent(url)</span><br><span class="line">img &lt;- readPNG(url_cont)</span><br><span class="line">rimg &lt;- as.raster(img) # raster multilayer object</span><br><span class="line">r &lt;- nrow(rimg) / ncol(rimg) # image ratio</span><br><span class="line">plot(rimg)</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure>
+<p>​ 此时就能正常导出PDF文件，但可能会造成编译时间较长等问题。</p>
+<p><strong>参考</strong></p>
+<ul>
+<li>https://community.rstudio.com/t/not-able-to-get-an-image-into-word-pdf-from-url-in-rmarkdown/15855/11</li>
+<li>https://d.cosx.org/d/422426-rmarkdownpdf</li>
+<li>https://bookdown.org/xiao/RAnalysisBook/r-markdown.html</li>
+</ul>
+]]></content>
       <categories>
-          
-          <category> 数据库 </category>
-          
+        <category>R</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> 数据库 </tag>
-            
-            <tag> Linux </tag>
-            
-            <tag> Oracle </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>数据库第二周笔记</title>
-      <link href="/2022/03/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AC%94%E8%AE%B0/"/>
-      <url>/2022/03/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AC%94%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[<h2><span id="sql函数">SQL函数</span></h2><h3><span id="字符型函数">字符型函数</span></h3><ul><li>RPAD和LPAD</li></ul><p>​ 靠左/右对齐</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> lpad(ename,<span class="number">10</span>,<span class="string">' '</span>),sal <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302220036481.png" alt="image-20220302220036481"><figcaption aria-hidden="true">image-20220302220036481</figcaption></figure><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> rpad(ename,<span class="number">10</span>,<span class="string">'.'</span>)<span class="operator">||</span>sal <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302220107942.png" alt="image-20220302220107942"><figcaption aria-hidden="true">image-20220302220107942</figcaption></figure><ul><li>LOWER,UPPER和INITCAP<ul><li>lower：全变小写</li><li>upper：全大写</li><li>INITCAP：第一个变大写，其他不变</li></ul></li></ul><p>​ 大小写转换</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> initcap(<span class="built_in">lower</span>(ename)),sal <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302220131159.png" alt="image-20220302220131159"><figcaption aria-hidden="true">image-20220302220131159</figcaption></figure><ul><li><p>LENGTH &amp; SUBSTR</p><p>列出名字最后一个字母</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,substr(ename,length(ename),<span class="number">1</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure></li><li><p>LTRIM和RTRIM</p></li></ul><p>​ 左/右截断函数，从左/右开始检查，直到检查到不符合则停止</p><p>形式借用，建立虚表</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302220709071.png" alt="image-20220302220709071"><figcaption aria-hidden="true">image-20220302220709071</figcaption></figure><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ltrim(<span class="string">'abcdefg'</span>,<span class="string">'badg'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302170126473.png" alt="image-20220302170126473"><figcaption aria-hidden="true">image-20220302170126473</figcaption></figure><p>​ 右截断一般用于去除右端空格</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> rtrim(<span class="string">'abcde    '</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302170431661.png" alt="image-20220302170431661"><figcaption aria-hidden="true">image-20220302170431661</figcaption></figure><ul><li>INSTR</li></ul><p>​ 从左边数去，第一次找到的位置</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> instr(<span class="string">'ababababababbab'</span>,<span class="string">'ba'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302170519000.png" alt="image-20220302170519000"><figcaption aria-hidden="true">image-20220302170519000</figcaption></figure><ul><li>CHR</li></ul><p>​ 查找ASCII码</p><ul><li>REPLACE</li></ul><p>​ 替代函数</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> replace(<span class="string">'abbsihdsljxansd'</span>,<span class="string">'a'</span>,<span class="string">'1'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302220908733.png" alt="image-20220302220908733"><figcaption aria-hidden="true">image-20220302220908733</figcaption></figure><ul><li>TRANSLATE</li></ul><p>​ REPLACE高级版，对应替换</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">translate</span>(<span class="string">'abbsihdsljxansd'</span>,<span class="string">'abs'</span>,<span class="string">'123'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221042013.png" alt="image-20220302221042013"><figcaption aria-hidden="true">image-20220302221042013</figcaption></figure><ul><li>SOUNDEX</li></ul><p>​ 读音函数，可用于模糊语音查询(不支持英语s)</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> soundex(ename) <span class="operator">=</span> soundex(<span class="string">'skot'</span>);</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302171022657.png" alt="image-20220302171021995"><figcaption aria-hidden="true">image-20220302171021995</figcaption></figure><h3><span id="数值型函数">数值型函数</span></h3><ul><li>NVL</li></ul><p>​ 封装NULL函数,指定NULL为0或其他值</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ename , sal,comm,nvl(comm,<span class="number">0</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302171223432.png" alt="image-20220302171223432"><figcaption aria-hidden="true">image-20220302171223432</figcaption></figure><ul><li>CEIL</li></ul><p>天花板函数，返回比输入要打的最小整数</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">ceil</span>(<span class="number">4.756</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302171343015.png" alt="image-20220302171343015"><figcaption aria-hidden="true">image-20220302171343015</figcaption></figure><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">ceil</span>(<span class="number">-4.756</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302171404226.png" alt="image-20220302171404226"><figcaption aria-hidden="true">image-20220302171404226</figcaption></figure><ul><li>FLOOR</li></ul><p>​ 地板函数，与CELLIL相反</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">FLOOR</span>(<span class="number">4.756</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221203865.png" alt="image-20220302221203865"><figcaption aria-hidden="true">image-20220302221203865</figcaption></figure><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">FLOOR</span>(<span class="number">-4.756</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221225801.png" alt="image-20220302221225801"><figcaption aria-hidden="true">image-20220302221225801</figcaption></figure><ul><li>ROUND</li></ul><p>​ 四舍五入</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ROUND(<span class="number">4.756</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="C:\Users\Terry\AppData\Roaming\Typora\typora-user-images\image-20220302221309965.png" alt="image-20220302221309965"><figcaption aria-hidden="true">image-20220302221309965</figcaption></figure><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ROUND(<span class="number">4.456</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221332395.png" alt="image-20220302221332395"><figcaption aria-hidden="true">image-20220302221332395</figcaption></figure><ul><li>trunc</li></ul><p>​ 规定小数位输出，直接截断。</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> trunc(<span class="number">4.456</span>,<span class="number">2</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221441901.png" alt="image-20220302221441901"><figcaption aria-hidden="true">image-20220302221441901</figcaption></figure><ul><li>GREATEST</li></ul><p>​ 选出最大值</p><ul><li>TO_CHAR</li></ul><p>格式化输出，把不是字符串的东西变成字符串，后面为格式码。</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(<span class="number">12.3456</span>,<span class="string">'9999.999'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221614652.png" alt="image-20220302221614652"><figcaption aria-hidden="true">image-20220302221614652</figcaption></figure><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(<span class="number">12.3456</span>,<span class="string">'0099.999'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221647785.png" alt="image-20220302221647785"><figcaption aria-hidden="true">image-20220302221647785</figcaption></figure><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(<span class="number">12.3456</span>,<span class="string">'$0099.999'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221728683.png" alt="image-20220302221728683"><figcaption aria-hidden="true">image-20220302221728683</figcaption></figure><h3><span id="日期函数">日期函数</span></h3><p>​ 一般缺省时间为12：00：00</p><ul><li>TO_CHAR</li></ul><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,to_char(hiredate,<span class="string">'yyyy-mm-dd'</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221901572.png" alt="image-20220302221901572"><figcaption aria-hidden="true">image-20220302221901572</figcaption></figure><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,to_char(hiredate,<span class="string">'yyyy-mm-dd hh:mi:ss'</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221953920.png" alt="image-20220302221953920"><figcaption aria-hidden="true">image-20220302221953920</figcaption></figure><ul><li>SYSDATE</li></ul><p>伪装函数(<code>SYSDATE</code>,<code>USER</code>,<code>ROWNUM</code>,<code>ROWID</code>,<code>LEVEL</code>)一种，获取当前日期</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> sysdate <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302222106146.png" alt="image-20220302222106146"><figcaption aria-hidden="true">image-20220302222106146</figcaption></figure><p>​ 修改输出样式</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(sysdate,<span class="string">'yyyy"年"fmmm"月"dd"日"'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302175451433.png" alt="image-20220302175451433"><figcaption aria-hidden="true">image-20220302175451433</figcaption></figure><ul><li>TO_DATE</li></ul><p>​ 常用于<code>INSERT</code>语句</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_date(<span class="string">'20010101111111'</span>,<span class="string">'yyyymmddhhmiss'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220303000205409.png" alt="image-20220303000205409"><figcaption aria-hidden="true">image-20220303000205409</figcaption></figure><ul><li>ADD_MONTHS</li></ul><p>​ 增加一个月</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> add_months(sysdate,<span class="number">3</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220303000351752.png" alt="image-20220303000351752"><figcaption aria-hidden="true">image-20220303000351752</figcaption></figure><ul><li>LAST_DAY</li></ul><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> last_day(sysdate) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220303000502887.png" alt="image-20220303000502887"><figcaption aria-hidden="true">image-20220303000502887</figcaption></figure><ul><li>MONTHS_BETWEEN</li></ul><p>​ 计算两个日期相隔多少个月(考试题)</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,trunc(months_between(sysdate,hiredate)<span class="operator">/</span><span class="number">12</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302180257163.png" alt="image-20220302180257163"><figcaption aria-hidden="true">image-20220302180257163</figcaption></figure>]]></content>
-      
-      
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>R</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux添加Oracle11g scott账户教程</title>
+    <url>/2022/02/25/Linux%E6%B7%BB%E5%8A%A0Oracle11g%20scott%E8%B4%A6%E6%88%B7%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p>​ 本文将介绍Linux下添加Oracle11g <strong>scott</strong>账户</p>
+<ol type="1">
+<li>使用sysdba登录：</li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225101907756.png" alt="sys登录">
+<figcaption aria-hidden="true">sys登录</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>执行<code>sql</code>文件，'@'表示在sqlplus执行脚本完成后自动断开连接</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line">@$ORACLE_HOME<span class="operator">/</span>rdbms<span class="operator">/</span>admin<span class="operator">/</span>utlsampl.sql</span><br></pre></td></tr></tbody></table></figure>
+<ol start="3" type="1">
+<li>切换为scott用户</li>
+</ol>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">sqlplus scott/tiger</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225102125149.png" alt="切换scott用户">
+<figcaption aria-hidden="true">切换scott用户</figcaption>
+</figure>
+<ol start="4" type="1">
+<li>验证，提取emp表</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225102207159.png" alt="提取emp表">
+<figcaption aria-hidden="true">提取emp表</figcaption>
+</figure>
+]]></content>
       <categories>
-          
-          <category> 数据库 </category>
-          
+        <category>数据库</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> 数据库 </tag>
-            
-            <tag> Linux </tag>
-            
-            <tag> Oracle </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>数据库第二周练习</title>
-      <link href="/2022/02/26/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%BB%83%E4%B9%A0/"/>
-      <url>/2022/02/26/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%BB%83%E4%B9%A0/</url>
-      
-        <content type="html"><![CDATA[<h2><span id="环境变量设置">环境变量设置</span></h2><ol type="1"><li><p>将<code>SQLPLUS</code>提示符改为<code>SQL=</code></p><p>在<code>sqlplus</code>中输入命令：</p></li></ol><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> sqlprompt "SQL="</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142139201.png" alt="image-20220225142139201"><figcaption aria-hidden="true">image-20220225142139201</figcaption></figure><p>​ 若要实现永久修改，需要在<code>shell</code>中输入命令</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim $ORACLE_HOME/sqlplus/admin/glogin.sql</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142237991.png" alt="·"><figcaption aria-hidden="true">·</figcaption></figure><p>​ 在其中加入</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> sqlprompt "SQL="</span><br></pre></td></tr></tbody></table></figure><p>​ 即可实现永久修改。</p><ol start="2" type="1"><li>去掉输出结果的列头</li></ol><p>​ 在<code>sqlplus</code>中输入</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> heading off</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142617923.png" alt="image-20220225142617923"><figcaption aria-hidden="true">image-20220225142617923</figcaption></figure><h2><span id="sql语句练习"><code>SQL</code>语句练习</span></h2><ol type="1"><li>列出工资在 2000-3000 之间（包括临界值）并且没有提成的员工</li></ol><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> SAL <span class="keyword">between</span> <span class="number">2000</span> <span class="keyword">and</span> <span class="number">3000</span> <span class="keyword">and</span> COMM <span class="keyword">is</span> <span class="keyword">NULL</span>;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225143205349.png" alt="image-20220225143205349"><figcaption aria-hidden="true">image-20220225143205349</figcaption></figure><ol start="2" type="1"><li>列出和 JONES 同一部门的员工名字</li></ol><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ENAME <span class="keyword">from</span> emp <span class="keyword">where</span> DEPTNO <span class="operator">=</span> (<span class="keyword">select</span> DEPTNO <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="operator">=</span> <span class="string">'JONES'</span>);</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225144126767.png" alt="image-20220225144126767"><figcaption aria-hidden="true">image-20220225144126767</figcaption></figure><ol start="3" type="1"><li>列出名字以 S 开头，名字长度为 5 个字符的员工</li></ol><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="keyword">like</span> <span class="string">'S%'</span> <span class="keyword">and</span> LENGTH(ENAME)<span class="operator">=</span><span class="number">5</span>;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225145136237.png" alt="image-20220225145136237"><figcaption aria-hidden="true">image-20220225145136237</figcaption></figure><ol start="4" type="1"><li>列出在芝加哥工作的员工，并且按工资从高到低排列</li></ol><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> (DEPTNO <span class="operator">=</span> (<span class="keyword">select</span> DEPTNO <span class="keyword">from</span> dept <span class="keyword">where</span> LOC <span class="operator">=</span> <span class="string">'CHICAGO'</span>)) <span class="keyword">ORDER</span> <span class="keyword">BY</span> SAL <span class="keyword">desc</span> ;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225145955750.png" alt="image-20220225145955750"><figcaption aria-hidden="true">image-20220225145955750</figcaption></figure><ol start="5" type="1"><li>列出姓名以 J 开头，总收入超过 2500 的员工名字</li></ol><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ENAME <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="keyword">like</span> <span class="string">'J%'</span> <span class="keyword">and</span> ((SAL<span class="operator">+</span>COMM)<span class="operator">&gt;</span><span class="number">2500</span> <span class="keyword">or</span> (SAL<span class="operator">&gt;</span><span class="number">2500</span>));</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225151231327.png" alt="image-20220225151231327"><figcaption aria-hidden="true">image-20220225151231327</figcaption></figure><h2><span id="模拟数据导入sql">模拟数据导入SQL</span></h2><p>​ 用自己熟悉的编程语言（包括并不限于 C++，R，Python等等），产生一个包含 500 万行数据的文本文件，每行由两个列组成，第一列是随机产生的长度为 10字符的字符串，第二 列是随机产生的 8位数字，两列中间用空格分开（如下）</p><p>abfgerjhgg 64758741</p><p>awqwyiuusa 10987622</p><h2><span id="模拟数据">模拟数据</span></h2><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line">num  = <span class="number">5000000</span></span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">"simuhw2.txt"</span>, <span class="string">'w'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(num)):</span><br><span class="line">    temp_num  = <span class="string">''</span>.join(random.sample(string.digits, <span class="number">8</span>))</span><br><span class="line">    temp_char = <span class="string">''</span>.join(random.sample(string.ascii_lowercase, <span class="number">10</span>))</span><br><span class="line">    temp_simu = temp_char + <span class="string">" "</span> + temp_num</span><br><span class="line">    f.writelines(temp_simu)</span><br><span class="line">    f.write(<span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line">f.close()</span><br></pre></td></tr></tbody></table></figure><ol type="1"><li>建表</li></ol><p>​ 名字为simuhw2，列名为name和id</p><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> simuhw2(name varchar2(<span class="number">10</span>),id number(<span class="number">8</span>));</span><br></pre></td></tr></tbody></table></figure><ol start="2" type="1"><li>构建文档</li></ol><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi simuhw2.ctl</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225224242587.png" alt="image-20220225224242587"><figcaption aria-hidden="true">image-20220225224242587</figcaption></figure><ol start="3" type="1"><li>导入文件</li></ol><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlldr userid=scott/tiger control=simuhw2.ctl log=simuhw2.log </span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225173651225.png" alt="image-20220225173651225"><figcaption aria-hidden="true">image-20220225173651225</figcaption></figure><ol start="5" type="1"><li>查看数据</li></ol><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> simuhw2;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225173915923.png" alt="image-20220225173915923"><figcaption aria-hidden="true">image-20220225173915923</figcaption></figure>]]></content>
-      
-      
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>数据库</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Oracle安装教程</title>
+    <url>/2022/02/18/Oracle%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p>​ 本文将介绍<code>Oracle 11g</code> 在Windows、Docker下安装方法。</p>
+<h1><span id="windows">Windows</span></h1>
+<p>​
+<code>Windows</code>下安装<code>Oracle</code>比较简单，下载地址为:https://www.oracle.com/cn/database/technologies/microsoft-windows.html，下载两个安装包后，放入同一个文件夹后点击<code>setup.exe</code>，进行安装。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225093813064.png" alt="setup">
+<figcaption aria-hidden="true">setup</figcaption>
+</figure>
+<p>​
+其他安装过程比较简单，不做说明，网上教程也比较丰富，比如https://www.cnblogs.com/liuhongfeng/p/5267549.html等博客。</p>
+<h1><span id="docker">Docker</span></h1>
+<p>​
+下面介绍在windows环境下使用<code>Docker</code>安装<code>Oracle11g</code>。</p>
+<ol type="1">
+<li><p>确保自己电脑为<strong>windows专业版</strong>，这样才能打开开启windows自带的<strong>Hyer-V</strong>功能。</p></li>
+<li><p>随后打开<strong>Hyper-V</strong>功能，具体路径为控制面板 <span class="math inline">\(\rightarrow\)</span>程序<span class="math inline">\(\rightarrow\)</span>程序和功能，也可以直接在开始界面搜索程序和功能打开，开启<strong>Hyper-V</strong>功能。。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225094900898.png" alt="程序和功能">
+<figcaption aria-hidden="true">程序和功能</figcaption>
+</figure></li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225094926077.png" alt="windos功能">
+<figcaption aria-hidden="true">windos功能</figcaption>
+</figure>
+<p>​</p>
+<ol start="3" type="1">
+<li>前往<a href="https://www.docker.com/products/docker-desktop"><strong>Docker</strong>官网</a>下载Docker
+for windows客户端，并进行安装</li>
+<li>打开<code>终端</code>或者<code>Powershell</code>，<code>cmd</code>输入</li>
+</ol>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker search oracle</span><br></pre></td></tr></tbody></table></figure>
+<p>​ 查找oracle镜像</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225095444499.png" alt="查找Oracle镜像">
+<figcaption aria-hidden="true">查找Oracle镜像</figcaption>
+</figure>
+<ol start="5" type="1">
+<li>网上教程均是推荐安装第二个<code>jaspeen/oracle-11g</code>，但是这是基于<code>Centos6.5</code>系统搭建的，而该系统已于2020年停止服务，无法更新，会对后续安装带来一定不便，此处我们安装第一个，输入命令拉去镜像</li>
+</ol>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker pull wnameless/oracle<span class="literal">-xe</span><span class="literal">-11g</span><span class="literal">-r2</span></span><br></pre></td></tr></tbody></table></figure>
+<ol start="6" type="1">
+<li>输入命令查看已经安装好的镜像</li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225100038719.png" alt="安装好的镜像">
+<figcaption aria-hidden="true">安装好的镜像</figcaption>
+</figure>
+<ol start="7" type="1">
+<li>启动容器，并重命名，将1521端口映射至本机的1521端口</li>
+</ol>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker run <span class="literal">-d</span> <span class="literal">-p</span> <span class="number">1522</span>:<span class="number">22</span> <span class="literal">-p</span> <span class="number">1521</span>:<span class="number">1521</span> -<span class="literal">-name</span> oracle11gr2 wnameless/oracle<span class="literal">-xe</span><span class="literal">-11g</span><span class="literal">-r2</span></span><br></pre></td></tr></tbody></table></figure>
+<ol start="8" type="1">
+<li>开机</li>
+</ol>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker <span class="built_in">start</span> oracle11gr2</span><br></pre></td></tr></tbody></table></figure>
+<ol start="9" type="1">
+<li>因为18.04版本后移除了ssh功能，此处需要用<code>exec</code>命令进入容器配置</li>
+</ol>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker exec <span class="literal">-it</span> oracle11gr2 bash</span><br></pre></td></tr></tbody></table></figure>
+<ol start="10" type="1">
+<li>进入oracle服务</li>
+</ol>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">sqlplus /nolog</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225100731354.png" alt="进入oracle">
+<figcaption aria-hidden="true">进入oracle</figcaption>
+</figure>
+<ol start="11" type="1">
+<li><p>在本容器中，<code>sys</code>和<code>system</code>的口令均为<code>oracle</code></p></li>
+<li><p>尝试进入<code>sys</code>用户</p></li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225100911180.png" alt="sys用户">
+<figcaption aria-hidden="true">sys用户</figcaption>
+</figure>
+<p>安装过程已经结束，如果想关闭容器，在命令行输入即可</p>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">docker <span class="built_in">kill</span> oracle11gr2</span><br></pre></td></tr></tbody></table></figure>
+<h1><span id="参考">参考</span></h1>
+<ul>
+<li>[1] https://github.com/wnameless/docker-oracle-xe-11g</li>
+</ul>
+]]></content>
       <categories>
-          
-          <category> 数据库 </category>
-          
+        <category>数据库</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> 数据库 </tag>
-            
-            <tag> Linux </tag>
-            
-            <tag> Oracle </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Linux添加Oracle11g scott账户教程</title>
-      <link href="/2022/02/25/Linux%E6%B7%BB%E5%8A%A0Oracle11g%20scott%E8%B4%A6%E6%88%B7%E6%95%99%E7%A8%8B/"/>
-      <url>/2022/02/25/Linux%E6%B7%BB%E5%8A%A0Oracle11g%20scott%E8%B4%A6%E6%88%B7%E6%95%99%E7%A8%8B/</url>
-      
-        <content type="html"><![CDATA[<p>​ 本文将介绍Linux下添加Oracle11g <strong>scott</strong>账户</p><ol type="1"><li>使用sysdba登录：</li></ol><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225101907756.png" alt="sys登录"><figcaption aria-hidden="true">sys登录</figcaption></figure><ol start="2" type="1"><li>执行<code>sql</code>文件，'@'表示在sqlplus执行脚本完成后自动断开连接</li></ol><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@$ORACLE_HOME<span class="operator">/</span>rdbms<span class="operator">/</span>admin<span class="operator">/</span>utlsampl.sql</span><br></pre></td></tr></tbody></table></figure><ol start="3" type="1"><li>切换为scott用户</li></ol><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlplus scott/tiger</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225102125149.png" alt="切换scott用户"><figcaption aria-hidden="true">切换scott用户</figcaption></figure><ol start="4" type="1"><li>验证，提取emp表</li></ol><figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225102207159.png" alt="提取emp表"><figcaption aria-hidden="true">提取emp表</figcaption></figure>]]></content>
-      
-      
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>数据库</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nohup命令</title>
+    <url>/2022/01/29/nohup%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1><span id="nohup命令用法"><code>nohup</code>命令用法</span></h1>
+<p>​
+我们在使用Linux的时候，希望让某个程序在后台运行。在命令的末尾加个&amp;符号后，程序可以在后台运行，但是一旦当前终端关闭（即退出当前帐户），该程序就会停止运行。那假如说我们想要退出当前终端，但又想让程序在后台运行，该如何处理呢？比如我们想讲任务提交到服务器运行，在这种情况下我们就可以使用<code>nohup</code>命令。</p>
+<p>​ <code>nohup</code> 英文全称 no hang
+up（不挂起），用于在系统后台不挂断地运行命令，退出终端不会影响程序的运行。</p>
+<h2><span id="语法格式">语法格式</span></h2>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">nohup Command [ Arg … ] [　&amp; ]</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><p><strong>Command</strong>：要执行的命令。</p></li>
+<li><p><strong>Arg</strong>：一些参数，可以指定输出文件。</p></li>
+<li><p><strong>&amp;</strong>：让命令在后台执行，终端退出后命令仍旧执行。</p></li>
+</ul>
+<p>​ 无论是否将 <code>nohup</code>
+命令的输出重定向到终端，输出都将附加到当前目录的
+<code>nohup.out</code>文件中。如果当前目录的 <code>nohup.out</code>
+文件不可写，输出重定向到 <code>$HOME/nohup.out</code>文件中。</p>
+<p>​ 可以使用<code>nohup
+--help</code>获得帮助，更多<code>OPTION</code>如下：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">--help</span><br><span class="line"> 显示帮助信息并退出</span><br><span class="line">--version</span><br><span class="line"> 显示版本信息并退出</span><br></pre></td></tr></tbody></table></figure>
+<h2><span id="实例">实例</span></h2>
+<p>​
+比如我们想要在后台运行<code>test.py</code>代码，只需在命令行输入：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">nohup python -u test.py &amp;</span><br></pre></td></tr></tbody></table></figure>
+<p>​
+如果仅仅如此使用<code>nohup</code>命令的话，程序的输出会默认重定向到一个<code>nohup.out</code>文件下。如果我们想要输出到指定文件，可另外指定输出文件：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">nohup .python -u test.py &gt; myout.txt </span><br></pre></td></tr></tbody></table></figure>
+<p>​ 这样一来，把标准输出/错误重定向到指定目录下。</p>
+<p>​
+当我们想关闭nohup进程时，需要用<code>top</code>找到进程对应的<code>pid</code>，然后使用<code>kill</code>命令，关闭该进程。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">kill -9 PID		</span><br></pre></td></tr></tbody></table></figure>
+]]></content>
       <categories>
-          
-          <category> 数据库 </category>
-          
+        <category>Linux</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> 数据库 </tag>
-            
-            <tag> Linux </tag>
-            
-            <tag> Oracle </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>GRU Introduction</title>
-      <link href="/2022/02/21/GRU%E4%BB%8B%E7%BB%8D/"/>
-      <url>/2022/02/21/GRU%E4%BB%8B%E7%BB%8D/</url>
-      
-        <content type="html"><![CDATA[<p>​ Gated recurrent units (GRUs) are a gating mechanism in recurrentneural networks, introduced in 2014 by Kyunghyun Cho et al. GRU is avery effective variant of LSTM network, which is simpler and moreeffective than the structure of LSTM network. It combines the forgetgate and the input gate into a single "update gate". It also combinescell state and hidden state, and makes some other changes. The resultingmodel is simpler than the standard LSTM model. Detailed descriptionbelow.</p><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220221105152231.png" alt="GRU structure"><figcaption aria-hidden="true">GRU structure</figcaption></figure><p>​ The first thing we need to introduce are the reset gate and theupdate gate. We engineer them to be vectors with entries in (0,1) suchthat we can perform convex combinations. For instance, a reset gatewould allow us to control how much of the previous state we might stillwant to remember. Likewise, an update gate would allow us to control howmuch of the new state is just a copy of the old state. Given the inputof the current time step and the hidden state of the previous time step.The outputs of two gates are given by two fully-connected layers with asigmoid activation function.</p><p>​ Mathematically, for a given time step <span class="math inline">\(t\)</span>, suppose that the input is a minibatch<span class="math inline">\(\mathbf{X}_{t} \in \mathbb{R}^{n \timesd}\)</span> (number of examples: <span class="math inline">\(n\)</span>,number of inputs: <span class="math inline">\(d\)</span> ) and thehidden state of the previous time step is <span class="math inline">\(\mathbf{H}_{t-1} \in \mathbb{R}^{n \timesh}\)</span> (number of hidden units: <span class="math inline">\(h\)</span> ). Then, the reset gate <span class="math inline">\(\mathbf{R}_{t} \in \mathbb{R}^{n \timesh}\)</span> and update gate <span class="math inline">\(\mathbf{Z}_{t}\in \mathbb{R}^{n \times h}\)</span> are computed as follows: <span class="math display">\[\begin{aligned}\mathbf{R}_{t} &amp;=\sigma\left(\mathbf{X}_{t} \mathbf{W}_{xr}+\mathbf{H}_{t-1} \mathbf{W}_{h r}+\mathbf{b}_{r}\right) \\\mathbf{Z}_{t} &amp;=\sigma\left(\mathbf{X}_{t} \mathbf{W}_{xz}+\mathbf{H}_{t-1} \mathbf{W}_{h z}+\mathbf{b}_{z}\right)\end{aligned}\]</span> where <span class="math inline">\(\mathbf{W}_{x r},\mathbf{W}_{x z} \in \mathbb{R}^{d \times h}\)</span> and <span class="math inline">\(\mathbf{W}_{h r}, \mathbf{W}_{h z} \in\mathbb{R}^{h \times h}\)</span> are weight parameters and <span class="math inline">\(\mathbf{b}_{r}, \mathbf{b}_{z} \in \mathbb{R}^{1\times h}\)</span> are biases. And we use sigmoid function to transforminput values to the interval <span class="math inline">\((0,1)\)</span><span class="math display">\[\sigma(x) = \frac{e^x}{1+e^{x}}\]</span> ​ Next, let us integrate the reset gate <span class="math inline">\(\mathbf{R}_{t}\)</span> with the regular latentstate updating mechanism in (8.4.5). It leads to the following candidatehidden state <span class="math inline">\(\tilde{\mathbf{H}}_{t} \in\mathbb{R}^{n \times h}\)</span> at time step <span class="math inline">\(t\)</span> : <span class="math display">\[\tilde{\mathbf{H}}_{t}=\tanh \left(\mathbf{X}_{t} \mathbf{W}_{xh}+\left(\mathbf{R}_{t} \odot \mathbf{H}_{t-1}\right) \mathbf{W}_{hh}+\mathbf{b}_{h}\right),\]</span> where <span class="math inline">\(\mathbf{W}_{x h} \in\mathbb{R}^{d \times h}\)</span> and <span class="math inline">\(\mathbf{W}_{h h} \in \mathbb{R}^{h \timesh}\)</span> are weight parameters, <span class="math inline">\(\mathbf{b}_{h} \in \mathbb{R}^{1 \timesh}\)</span> is the bias, and the symbol <span class="math inline">\(\odot\)</span> is the Hadamard (elementwise)product operator. Here we use a nonlinearity in the form of tanh toensure that the values in the candidate hidden state remain in theinterval <span class="math inline">\((-1,1)\)</span>. <span class="math display">\[tanh(x) = \frac{sin(x)}{cos(x)} = \frac{e^x-e^{-x}}{e^x+x^{-x}}\]</span> ​ Finally, we need to incorporate the effect of the updategate <span class="math inline">\(\mathbf{Z}_{t}\)</span>. Thisdetermines the extent to which the new hidden state <span class="math inline">\(\mathbf{H}_{t} \in \mathbb{R}^{n \timesh}\)</span> is just the old state <span class="math inline">\(\mathbf{H}_{t-1}\)</span> and by how much the newcandidate state <span class="math inline">\(\tilde{\mathbf{H}}_{t}\)</span> is used. Theupdate gate <span class="math inline">\(\mathbf{Z}_{t}\)</span> can beused for this purpose, simply by taking elementwise convex combinationsbetween both <span class="math inline">\(\mathbf{H}_{t-1}\)</span> and<span class="math inline">\(\tilde{\mathbf{H}}_{t}\)</span>. This leadsto the final update equation for the GRU: <span class="math display">\[\mathbf{H}_{t}=\mathbf{Z}_{t} \odot\mathbf{H}_{t-1}+\left(1-\mathbf{Z}_{t}\right) \odot\tilde{\mathbf{H}}_{t}\]</span> ​ Whenever the update gate <span class="math inline">\(\mathbf{Z}_{t}\)</span> is close to 1 , we simplyretain the old state. In this case the information from <span class="math inline">\(\mathbf{X}_{t}\)</span> is essentially ignored,effectively skipping time step <span class="math inline">\(t\)</span> inthe dependency chain. In contrast, whenever <span class="math inline">\(\mathbf{Z}_{t}\)</span> is close to 0 , the newlatent state <span class="math inline">\(\mathbf{H}_{t}\)</span>approaches the candidate latent state <span class="math inline">\(\tilde{\mathbf{H}}_{t}\)</span>. These designs canhelp us cope with the vanishing gradient problem in RNNs and bettercapture dependencies for sequences with large time step distances. Forinstance, if the update gate has been close to 1 for all the time stepsof an entire subsequence, the old hidden state at the time step of itsbeginning will be easily retained and passed to its end, regardless ofthe length of the subsequence.</p>]]></content>
-      
-      
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多元统计分析笔记</title>
+    <url>/2022/02/17/%E5%A4%9A%E5%85%83%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[]]></content>
       <categories>
-          
-          <category> 时间序列 </category>
-          
+        <category>多元统计分析</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 时间序列 </tag>
-            
-            <tag> 机器学习 </tag>
-            
-            <tag> 学习笔记 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>数据库第一周</title>
-      <link href="/2022/02/18/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%B8%80%E5%91%A8/"/>
-      <url>/2022/02/18/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%B8%80%E5%91%A8/</url>
-      
-        <content type="html"><![CDATA[<p>​ 数据科学<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220218151936580.png" alt="image-20220218151936580"></p><h3><span id="名词含义">名词含义</span></h3><ul><li>OLTP : Online Transection Processing</li><li>OLAP : Online Analysis Processing</li><li>ETL : Extract Transform Local</li></ul><h3><span id="什么是数据库">什么是数据库</span></h3><p>数据存放的演变：变量存放 — 数据文件存放 — 分化出专业的dbms(DatabaseManage System)</p><p>数据库的核心问题：</p><p>1.数据怎样存储的问题（存储引擎）</p><p>2.数据怎样快速定位的问题（索引）</p><p>3.数据怎样查询和维护的问题（操作命令的解析）</p>]]></content>
-      
-      
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>多元统计分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库笔记</title>
+    <url>/2022/02/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[]]></content>
       <categories>
-          
-          <category> Linux </category>
-          
+        <category>数据库</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 数据库 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Oracle安装教程</title>
-      <link href="/2022/02/18/Oracle%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/"/>
-      <url>/2022/02/18/Oracle%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
-      
-        <content type="html"><![CDATA[<p>​ 本文将介绍<code>Oracle 11g</code> 在Windows、Docker下安装方法。</p><h1><span id="windows">Windows</span></h1><p>​<code>Windows</code>下安装<code>Oracle</code>比较简单，下载地址为:https://www.oracle.com/cn/database/technologies/microsoft-windows.html，下载两个安装包后，放入同一个文件夹后点击<code>setup.exe</code>，进行安装。</p><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225093813064.png" alt="setup"><figcaption aria-hidden="true">setup</figcaption></figure><p>​其他安装过程比较简单，不做说明，网上教程也比较丰富，比如https://www.cnblogs.com/liuhongfeng/p/5267549.html等博客。</p><h1><span id="docker">Docker</span></h1><p>​下面介绍在windows环境下使用<code>Docker</code>安装<code>Oracle11g</code>。</p><ol type="1"><li><p>确保自己电脑为<strong>windows专业版</strong>，这样才能打开开启windows自带的<strong>Hyer-V</strong>功能。</p></li><li><p>随后打开<strong>Hyper-V</strong>功能，具体路径为控制面板 <span class="math inline">\(\rightarrow\)</span>程序<span class="math inline">\(\rightarrow\)</span>程序和功能，也可以直接在开始界面搜索程序和功能打开，开启<strong>Hyper-V</strong>功能。。</p><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225094900898.png" alt="程序和功能"><figcaption aria-hidden="true">程序和功能</figcaption></figure></li></ol><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225094926077.png" alt="windos功能"><figcaption aria-hidden="true">windos功能</figcaption></figure><p>​</p><ol start="3" type="1"><li>前往<a href="https://www.docker.com/products/docker-desktop"><strong>Docker</strong>官网</a>下载Dockerfor windows客户端，并进行安装</li><li>打开<code>终端</code>或者<code>Powershell</code>，<code>cmd</code>输入</li></ol><figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search oracle</span><br></pre></td></tr></tbody></table></figure><p>​ 查找oracle镜像</p><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225095444499.png" alt="查找Oracle镜像"><figcaption aria-hidden="true">查找Oracle镜像</figcaption></figure><ol start="5" type="1"><li>网上教程均是推荐安装第二个<code>jaspeen/oracle-11g</code>，但是这是基于<code>Centos6.5</code>系统搭建的，而该系统已于2020年停止服务，无法更新，会对后续安装带来一定不便，此处我们安装第一个，输入命令拉去镜像</li></ol><figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull wnameless/oracle<span class="literal">-xe</span><span class="literal">-11g</span><span class="literal">-r2</span></span><br></pre></td></tr></tbody></table></figure><ol start="6" type="1"><li>输入命令查看已经安装好的镜像</li></ol><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225100038719.png" alt="安装好的镜像"><figcaption aria-hidden="true">安装好的镜像</figcaption></figure><ol start="7" type="1"><li>启动容器，并重命名，将1521端口映射至本机的1521端口</li></ol><figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run <span class="literal">-d</span> <span class="literal">-p</span> <span class="number">1522</span>:<span class="number">22</span> <span class="literal">-p</span> <span class="number">1521</span>:<span class="number">1521</span> -<span class="literal">-name</span> oracle11gr2 wnameless/oracle<span class="literal">-xe</span><span class="literal">-11g</span><span class="literal">-r2</span></span><br></pre></td></tr></tbody></table></figure><ol start="8" type="1"><li>开机</li></ol><figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">start</span> oracle11gr2</span><br></pre></td></tr></tbody></table></figure><ol start="9" type="1"><li>因为18.04版本后移除了ssh功能，此处需要用<code>exec</code>命令进入容器配置</li></ol><figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec <span class="literal">-it</span> oracle11gr2 bash</span><br></pre></td></tr></tbody></table></figure><ol start="10" type="1"><li>进入oracle服务</li></ol><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlplus /nolog</span><br></pre></td></tr></tbody></table></figure><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225100731354.png" alt="进入oracle"><figcaption aria-hidden="true">进入oracle</figcaption></figure><ol start="11" type="1"><li><p>在本容器中，<code>sys</code>和<code>system</code>的口令均为<code>oracle</code></p></li><li><p>尝试进入<code>sys</code>用户</p></li></ol><figure><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225100911180.png" alt="sys用户"><figcaption aria-hidden="true">sys用户</figcaption></figure><p>安装过程已经结束，如果想关闭容器，在命令行输入即可</p><figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">kill</span> oracle11gr2</span><br></pre></td></tr></tbody></table></figure><h1><span id="参考">参考</span></h1><ul><li>[1] https://github.com/wnameless/docker-oracle-xe-11g</li></ul>]]></content>
-      
-      
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库第一周</title>
+    <url>/2022/02/18/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%B8%80%E5%91%A8/</url>
+    <content><![CDATA[<p>​ 数据科学<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220218151936580.png" alt="image-20220218151936580"></p>
+<h3><span id="名词含义">名词含义</span></h3>
+<ul>
+<li>OLTP : Online Transection Processing</li>
+<li>OLAP : Online Analysis Processing</li>
+<li>ETL : Extract Transform Local</li>
+</ul>
+<h3><span id="什么是数据库">什么是数据库</span></h3>
+<p>数据存放的演变：变量存放 — 数据文件存放 — 分化出专业的dbms(Database
+Manage System)</p>
+<p>数据库的核心问题：</p>
+<p>1.数据怎样存储的问题（存储引擎）</p>
+<p>2.数据怎样快速定位的问题（索引）</p>
+<p>3.数据怎样查询和维护的问题（操作命令的解析）</p>
+]]></content>
       <categories>
-          
-          <category> 数据库 </category>
-          
+        <category>Linux</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> 数据库 </tag>
-            
-            <tag> Linux </tag>
-            
-            <tag> Oracle </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>多元统计分析笔记</title>
-      <link href="/2022/02/17/%E5%A4%9A%E5%85%83%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/"/>
-      <url>/2022/02/17/%E5%A4%9A%E5%85%83%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库第三周练习</title>
+    <url>/2022/03/04/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%B8%89%E5%91%A8%E7%BB%83%E4%B9%A0/</url>
+    <content><![CDATA[<h1><span id="sql语句练习"><code>SQL</code>语句练习</span></h1>
+<ul>
+<li>显示员工的姓名和雇佣时间，要求中文时间格式，即“2012 年 9 月 26
+日”这样的形式（要求不出现 09 月，把 0 去掉）</li>
+</ul>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(HIREDATE,<span class="string">'yyyy"年"fmmm"月"dd"日"'</span>),ENAME <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304142332474.png" alt="image-20220304142332474">
+<figcaption aria-hidden="true">image-20220304142332474</figcaption>
+</figure>
+<ul>
+<li>显示员工的姓名和总收入，总收入以美元符号$开头，带小数点后两位</li>
+</ul>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ENAME,to_char(NVL(COMM,<span class="number">0</span>)<span class="operator">+</span>SAL,<span class="string">'$99999.99'</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304142612112.png" alt="image-20220304142612112">
+<figcaption aria-hidden="true">image-20220304142612112</figcaption>
+</figure>
+<ul>
+<li>假设每位员工在进入公司满 10 年后的第一个 4 月 1
+日，会给他发放“优质服务奖”，请列出每位员工的获奖时间</li>
+</ul>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(<span class="keyword">case</span> <span class="keyword">when</span> <span class="built_in">extract</span>(<span class="keyword">month</span>   <span class="keyword">from</span> (ADD_MONTHS(HIREDATE,<span class="number">120</span>))) <span class="operator">&lt;</span> <span class="number">4</span> <span class="keyword">then</span> ADD_MONTHS(trunc(ADD_MONTHS(HIREDATE,<span class="number">120</span>),<span class="string">'yyyy'</span>),<span class="number">3</span>) <span class="keyword">else</span> ADD_MONTHS(trunc(ADD_MONTHS(HIREDATE,<span class="number">120</span>),<span class="string">'yyyy'</span>),<span class="number">15</span>) <span class="keyword">end</span>,<span class="string">'yyyy-fmmm-dd'</span>) ,ename <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304165000952.png" alt="image-20220304165000952">
+<figcaption aria-hidden="true">image-20220304165000952</figcaption>
+</figure>
+<ul>
+<li>列出员工号和姓名，所属部门名称，要求员工号用中文大写，例如“1234”输出为”壹贰叁肆
+"</li>
+</ul>
+<p>​ 构造函数：</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">translate</span>(rownum,<span class="string">'0123456789'</span>,<span class="string">'零壹贰叁肆伍陆柒捌玖'</span>) ID,ENAME,DNAME <span class="keyword">from</span> emp,dept <span class="keyword">where</span> dept.deptno<span class="operator">=</span>emp.deptno;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304155948380.png" alt="image-20220304155948380">
+<figcaption aria-hidden="true">image-20220304155948380</figcaption>
+</figure>
+<h1><span id="问题解答">问题解答</span></h1>
+<ul>
+<li>To_date如果没有指定时分秒，缺省的时分秒是？</li>
+</ul>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(HIREDATE,<span class="string">'yyyy-fmmm-dd hh:mi:ss'</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304152119031.png" alt="image-20220304152119031">
+<figcaption aria-hidden="true">image-20220304152119031</figcaption>
+</figure>
+<p>​ 可以观察到，缺失默认值为12:00:00</p>
+<ul>
+<li>如果指定的年份是45，那产生1945年还是2045年？</li>
+</ul>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TO_CHAR(TO_DATE(<span class="string">'45-01-01'</span>,<span class="string">'YY-MM-DD'</span>),<span class="string">'YYYY-MM-DD'</span>) <span class="keyword">FROM</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304152704096.png" alt="image-20220304152704096">
+<figcaption aria-hidden="true">image-20220304152704096</figcaption>
+</figure>
+<ul>
+<li>中文字符有多长?</li>
+</ul>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> length(<span class="string">'李'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304152824042.png" alt="image-20220304152824042">
+<figcaption aria-hidden="true">image-20220304152824042</figcaption>
+</figure>
+<p>​ 中文字符长度为1,中文(UTF-8)占3个字节。</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> lengthb(<span class="string">'李'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304153454649.png" alt="image-20220304153454649">
+<figcaption aria-hidden="true">image-20220304153454649</figcaption>
+</figure>
+<ul>
+<li>中英混合的字符串，substr会乱套吗?</li>
+</ul>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> substr(<span class="string">'124abd数据库'</span>,<span class="number">1</span>,<span class="number">1</span>)<span class="keyword">from</span> dual;</span><br><span class="line"><span class="keyword">select</span> substr(<span class="string">'124abd数据库'</span>,<span class="number">5</span>,<span class="number">1</span>)<span class="keyword">from</span> dual;</span><br><span class="line"><span class="keyword">select</span> substr(<span class="string">'124abd数据库'</span>,<span class="number">7</span>,<span class="number">1</span>)<span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304153202957.png" alt="image-20220304153202957">
+<figcaption aria-hidden="true">image-20220304153202957</figcaption>
+</figure>
+<ul>
+<li>Varchar2（10）的字段，可以放5个中文字符还是10个</li>
+</ul>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> simuhw3(name varchar2(<span class="number">10</span>));</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> simuhw3(name) <span class="keyword">values</span> (<span class="string">'数据库真难啊'</span>)</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304153912929.png" alt="image-20220304153912929">
+<figcaption aria-hidden="true">image-20220304153912929</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304154531354.png" alt="image-20220304154531354">
+<figcaption aria-hidden="true">image-20220304154531354</figcaption>
+</figure>
+<p>​
+因为采用了UTF-8编码，只能容纳3个中文字符，若采用GBK编码，可以容纳5个。</p>
+<h1><span id="数据泵">数据泵</span></h1>
+<p>利用 Oracle 的“数据泵”功能 expdp/impdp 将上周创建的 500
+万行的表转移到另外一台服务器上。</p>
+<p>先对原主机使用<code>sys</code>用户进行登录sqlplus，输入:</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">Select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_directories; </span><br></pre></td></tr></tbody></table></figure>
+<p>查看可以访问目录对象，并创建<code>scott</code>可以访问对象</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> REPLACE DIRECTORY test_dir <span class="keyword">AS</span> <span class="string">'/u01/app/oracle/oradata/'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> READ, WRITE <span class="keyword">ON</span> DIRECTORY test_dir <span class="keyword">TO</span> scott;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304135034529.png" alt="image-20220304135034529">
+<figcaption aria-hidden="true">image-20220304135034529</figcaption>
+</figure>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">expdp scott/tiger@Xe tables=simuhw2 directory=TEST_DIR dumpfile=simuhw2.dmp logfile=expdpsimuhw2.log</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304135045366.png" alt="image-20220304135045366">
+<figcaption aria-hidden="true">image-20220304135045366</figcaption>
+</figure>
+<p>​
+可以看到，在<code>/u01/app/oracle/oradata/</code>目录中，已经存储了导出的文件</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304135158962.png" alt="image-20220304135158962">
+<figcaption aria-hidden="true">image-20220304135158962</figcaption>
+</figure>
+<p>​ 将其复制出来，拷贝到另一台机子</p>
+<p>​ 同理，在拷贝对象机子同样执行上述操作</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> REPLACE DIRECTORY test_dir <span class="keyword">AS</span> <span class="string">'/u01/app/oracle/oradata/'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> READ, WRITE <span class="keyword">ON</span> DIRECTORY test_dir <span class="keyword">TO</span> scott;</span><br></pre></td></tr></tbody></table></figure>
+<p>​ 执行</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">impdp scott/tiger@Xe tables=simuhw2 directory=TEST_DIR dumpfile=simuhw2.dmp logfile=impdpsimuhw2.log</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304140341011.png" alt="image-20220304140341011">
+<figcaption aria-hidden="true">image-20220304140341011</figcaption>
+</figure>
+<p>检查是否成功导入</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line">conn scott<span class="operator">/</span>tiger</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> simuhw2;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220304140447712.png" alt="image-20220304140447712">
+<figcaption aria-hidden="true">image-20220304140447712</figcaption>
+</figure>
+<p>​ 成功导入</p>
+<h1><span id="参考">参考</span></h1>
+<ul>
+<li>https://oracle-base.com/articles/10g/oracle-data-pump-10g</li>
+</ul>
+]]></content>
       <categories>
-          
-          <category> 多元统计分析 </category>
-          
+        <category>数据库</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> 多元统计分析 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>生存分析 Introduction</title>
-      <link href="/2022/02/15/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%20Introduction/"/>
-      <url>/2022/02/15/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%20Introduction/</url>
-      
-        <content type="html"><![CDATA[<p>​ 在生物医学研究中，生存分析是非常重要和常见的分析方法。本博客将基于学习生存分析。</p><h1><span id="survival-analysis-定义">Survival Analysis 定义</span></h1><p>​ 生存分析的定义为：<strong>Survival analysis is a collection ofstatistical procedures for data analysis for which the outcome variableof interest is time until an event occurs.</strong></p><h1><span id="删失数据-censored-data">删失数据 Censored data</span></h1><p>​</p>]]></content>
-      
-      
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>数据库</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库第二周笔记</title>
+    <url>/2022/03/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2><span id="sql函数">SQL函数</span></h2>
+<h3><span id="字符型函数">字符型函数</span></h3>
+<ul>
+<li>RPAD和LPAD</li>
+</ul>
+<p>​ 靠左/右对齐</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> lpad(ename,<span class="number">10</span>,<span class="string">' '</span>),sal <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302220036481.png" alt="image-20220302220036481">
+<figcaption aria-hidden="true">image-20220302220036481</figcaption>
+</figure>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> rpad(ename,<span class="number">10</span>,<span class="string">'.'</span>)<span class="operator">||</span>sal <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302220107942.png" alt="image-20220302220107942">
+<figcaption aria-hidden="true">image-20220302220107942</figcaption>
+</figure>
+<ul>
+<li>LOWER,UPPER和INITCAP
+<ul>
+<li>lower：全变小写</li>
+<li>upper：全大写</li>
+<li>INITCAP：第一个变大写，其他不变</li>
+</ul></li>
+</ul>
+<p>​ 大小写转换</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> initcap(<span class="built_in">lower</span>(ename)),sal <span class="keyword">from</span> emp;	</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302220131159.png" alt="image-20220302220131159">
+<figcaption aria-hidden="true">image-20220302220131159</figcaption>
+</figure>
+<ul>
+<li><p>LENGTH &amp; SUBSTR</p>
+<p>列出名字最后一个字母</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,substr(ename,length(ename),<span class="number">1</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>LTRIM和RTRIM</p></li>
+</ul>
+<p>​ 左/右截断函数，从左/右开始检查，直到检查到不符合则停止</p>
+<p>形式借用，建立虚表</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302220709071.png" alt="image-20220302220709071">
+<figcaption aria-hidden="true">image-20220302220709071</figcaption>
+</figure>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ltrim(<span class="string">'abcdefg'</span>,<span class="string">'badg'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302170126473.png" alt="image-20220302170126473">
+<figcaption aria-hidden="true">image-20220302170126473</figcaption>
+</figure>
+<p>​ 右截断一般用于去除右端空格</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> rtrim(<span class="string">'abcde    '</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302170431661.png" alt="image-20220302170431661">
+<figcaption aria-hidden="true">image-20220302170431661</figcaption>
+</figure>
+<ul>
+<li>INSTR</li>
+</ul>
+<p>​ 从左边数去，第一次找到的位置</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> instr(<span class="string">'ababababababbab'</span>,<span class="string">'ba'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302170519000.png" alt="image-20220302170519000">
+<figcaption aria-hidden="true">image-20220302170519000</figcaption>
+</figure>
+<ul>
+<li>CHR</li>
+</ul>
+<p>​ 查找ASCII码</p>
+<ul>
+<li>REPLACE</li>
+</ul>
+<p>​ 替代函数</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> replace(<span class="string">'abbsihdsljxansd'</span>,<span class="string">'a'</span>,<span class="string">'1'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302220908733.png" alt="image-20220302220908733">
+<figcaption aria-hidden="true">image-20220302220908733</figcaption>
+</figure>
+<ul>
+<li>TRANSLATE</li>
+</ul>
+<p>​ REPLACE高级版，对应替换</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">translate</span>(<span class="string">'abbsihdsljxansd'</span>,<span class="string">'abs'</span>,<span class="string">'123'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221042013.png" alt="image-20220302221042013">
+<figcaption aria-hidden="true">image-20220302221042013</figcaption>
+</figure>
+<ul>
+<li>SOUNDEX</li>
+</ul>
+<p>​ 读音函数，可用于模糊语音查询(不支持英语s)</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> soundex(ename) <span class="operator">=</span> soundex(<span class="string">'skot'</span>);</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302171022657.png" alt="image-20220302171021995">
+<figcaption aria-hidden="true">image-20220302171021995</figcaption>
+</figure>
+<h3><span id="数值型函数">数值型函数</span></h3>
+<ul>
+<li>NVL</li>
+</ul>
+<p>​ 封装NULL函数,指定NULL为0或其他值</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ename , sal,comm,nvl(comm,<span class="number">0</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302171223432.png" alt="image-20220302171223432">
+<figcaption aria-hidden="true">image-20220302171223432</figcaption>
+</figure>
+<ul>
+<li>CEIL</li>
+</ul>
+<p>天花板函数，返回比输入要打的最小整数</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">ceil</span>(<span class="number">4.756</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302171343015.png" alt="image-20220302171343015">
+<figcaption aria-hidden="true">image-20220302171343015</figcaption>
+</figure>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">ceil</span>(<span class="number">-4.756</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302171404226.png" alt="image-20220302171404226">
+<figcaption aria-hidden="true">image-20220302171404226</figcaption>
+</figure>
+<ul>
+<li>FLOOR</li>
+</ul>
+<p>​ 地板函数，与CELLIL相反</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">FLOOR</span>(<span class="number">4.756</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221203865.png" alt="image-20220302221203865">
+<figcaption aria-hidden="true">image-20220302221203865</figcaption>
+</figure>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">FLOOR</span>(<span class="number">-4.756</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221225801.png" alt="image-20220302221225801">
+<figcaption aria-hidden="true">image-20220302221225801</figcaption>
+</figure>
+<ul>
+<li>ROUND</li>
+</ul>
+<p>​ 四舍五入</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ROUND(<span class="number">4.756</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="C:\Users\Terry\AppData\Roaming\Typora\typora-user-images\image-20220302221309965.png" alt="image-20220302221309965">
+<figcaption aria-hidden="true">image-20220302221309965</figcaption>
+</figure>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ROUND(<span class="number">4.456</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221332395.png" alt="image-20220302221332395">
+<figcaption aria-hidden="true">image-20220302221332395</figcaption>
+</figure>
+<ul>
+<li>trunc</li>
+</ul>
+<p>​ 规定小数位输出，直接截断。</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> trunc(<span class="number">4.456</span>,<span class="number">2</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221441901.png" alt="image-20220302221441901">
+<figcaption aria-hidden="true">image-20220302221441901</figcaption>
+</figure>
+<ul>
+<li>GREATEST</li>
+</ul>
+<p>​ 选出最大值</p>
+<ul>
+<li>TO_CHAR</li>
+</ul>
+<p>格式化输出，把不是字符串的东西变成字符串，后面为格式码。</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(<span class="number">12.3456</span>,<span class="string">'9999.999'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221614652.png" alt="image-20220302221614652">
+<figcaption aria-hidden="true">image-20220302221614652</figcaption>
+</figure>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(<span class="number">12.3456</span>,<span class="string">'0099.999'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221647785.png" alt="image-20220302221647785">
+<figcaption aria-hidden="true">image-20220302221647785</figcaption>
+</figure>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(<span class="number">12.3456</span>,<span class="string">'$0099.999'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221728683.png" alt="image-20220302221728683">
+<figcaption aria-hidden="true">image-20220302221728683</figcaption>
+</figure>
+<h3><span id="日期函数">日期函数</span></h3>
+<p>​ 一般缺省时间为12：00：00</p>
+<ul>
+<li>TO_CHAR</li>
+</ul>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,to_char(hiredate,<span class="string">'yyyy-mm-dd'</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221901572.png" alt="image-20220302221901572">
+<figcaption aria-hidden="true">image-20220302221901572</figcaption>
+</figure>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,to_char(hiredate,<span class="string">'yyyy-mm-dd hh:mi:ss'</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302221953920.png" alt="image-20220302221953920">
+<figcaption aria-hidden="true">image-20220302221953920</figcaption>
+</figure>
+<ul>
+<li>SYSDATE</li>
+</ul>
+<p>伪装函数(<code>SYSDATE</code>,<code>USER</code>,<code>ROWNUM</code>,<code>ROWID</code>,<code>LEVEL</code>)一种，获取当前日期</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> sysdate <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302222106146.png" alt="image-20220302222106146">
+<figcaption aria-hidden="true">image-20220302222106146</figcaption>
+</figure>
+<p>​ 修改输出样式</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(sysdate,<span class="string">'yyyy"年"fmmm"月"dd"日"'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302175451433.png" alt="image-20220302175451433">
+<figcaption aria-hidden="true">image-20220302175451433</figcaption>
+</figure>
+<ul>
+<li>TO_DATE</li>
+</ul>
+<p>​ 常用于<code>INSERT</code>语句</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> to_date(<span class="string">'20010101111111'</span>,<span class="string">'yyyymmddhhmiss'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220303000205409.png" alt="image-20220303000205409">
+<figcaption aria-hidden="true">image-20220303000205409</figcaption>
+</figure>
+<ul>
+<li>ADD_MONTHS</li>
+</ul>
+<p>​ 增加一个月</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> add_months(sysdate,<span class="number">3</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220303000351752.png" alt="image-20220303000351752">
+<figcaption aria-hidden="true">image-20220303000351752</figcaption>
+</figure>
+<ul>
+<li>LAST_DAY</li>
+</ul>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> last_day(sysdate) <span class="keyword">from</span> dual;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220303000502887.png" alt="image-20220303000502887">
+<figcaption aria-hidden="true">image-20220303000502887</figcaption>
+</figure>
+<ul>
+<li>MONTHS_BETWEEN</li>
+</ul>
+<p>​ 计算两个日期相隔多少个月(考试题)</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,trunc(months_between(sysdate,hiredate)<span class="operator">/</span><span class="number">12</span>) <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220302180257163.png" alt="image-20220302180257163">
+<figcaption aria-hidden="true">image-20220302180257163</figcaption>
+</figure>
+]]></content>
       <categories>
-          
-          <category> 生存分析 </category>
-          
+        <category>数据库</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> 生存分析 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>数据库笔记</title>
-      <link href="/2022/02/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B0/"/>
-      <url>/2022/02/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>数据库</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库第二周练习</title>
+    <url>/2022/02/26/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%BB%83%E4%B9%A0/</url>
+    <content><![CDATA[<h2><span id="环境变量设置">环境变量设置</span></h2>
+<ol type="1">
+<li><p>将<code>SQLPLUS</code>提示符改为<code>SQL=</code></p>
+<p>在<code>sqlplus</code>中输入命令：</p></li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> sqlprompt "SQL="</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142139201.png" alt="image-20220225142139201">
+<figcaption aria-hidden="true">image-20220225142139201</figcaption>
+</figure>
+<p>​ 若要实现永久修改，需要在<code>shell</code>中输入命令</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">vim $ORACLE_HOME/sqlplus/admin/glogin.sql</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142237991.png" alt="·">
+<figcaption aria-hidden="true">·</figcaption>
+</figure>
+<p>​ 在其中加入</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> sqlprompt "SQL="</span><br></pre></td></tr></tbody></table></figure>
+<p>​ 即可实现永久修改。</p>
+<ol start="2" type="1">
+<li>去掉输出结果的列头</li>
+</ol>
+<p>​ 在<code>sqlplus</code>中输入</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> heading off</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142617923.png" alt="image-20220225142617923">
+<figcaption aria-hidden="true">image-20220225142617923</figcaption>
+</figure>
+<h2><span id="sql语句练习"><code>SQL</code>语句练习</span></h2>
+<ol type="1">
+<li>列出工资在 2000-3000 之间（包括临界值）并且没有提成的员工</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> SAL <span class="keyword">between</span> <span class="number">2000</span> <span class="keyword">and</span> <span class="number">3000</span> <span class="keyword">and</span> COMM <span class="keyword">is</span> <span class="keyword">NULL</span>;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225143205349.png" alt="image-20220225143205349">
+<figcaption aria-hidden="true">image-20220225143205349</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>列出和 JONES 同一部门的员工名字</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ENAME <span class="keyword">from</span> emp <span class="keyword">where</span> DEPTNO <span class="operator">=</span> (<span class="keyword">select</span> DEPTNO <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="operator">=</span> <span class="string">'JONES'</span>);</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225144126767.png" alt="image-20220225144126767">
+<figcaption aria-hidden="true">image-20220225144126767</figcaption>
+</figure>
+<ol start="3" type="1">
+<li>列出名字以 S 开头，名字长度为 5 个字符的员工</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="keyword">like</span> <span class="string">'S%'</span> <span class="keyword">and</span> LENGTH(ENAME)<span class="operator">=</span><span class="number">5</span>;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225145136237.png" alt="image-20220225145136237">
+<figcaption aria-hidden="true">image-20220225145136237</figcaption>
+</figure>
+<ol start="4" type="1">
+<li>列出在芝加哥工作的员工，并且按工资从高到低排列</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> (DEPTNO <span class="operator">=</span> (<span class="keyword">select</span> DEPTNO <span class="keyword">from</span> dept <span class="keyword">where</span> LOC <span class="operator">=</span> <span class="string">'CHICAGO'</span>)) <span class="keyword">ORDER</span> <span class="keyword">BY</span> SAL <span class="keyword">desc</span> ;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225145955750.png" alt="image-20220225145955750">
+<figcaption aria-hidden="true">image-20220225145955750</figcaption>
+</figure>
+<ol start="5" type="1">
+<li>列出姓名以 J 开头，总收入超过 2500 的员工名字</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ENAME <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="keyword">like</span> <span class="string">'J%'</span> <span class="keyword">and</span> ((SAL<span class="operator">+</span>COMM)<span class="operator">&gt;</span><span class="number">2500</span> <span class="keyword">or</span> (SAL<span class="operator">&gt;</span><span class="number">2500</span>));</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225151231327.png" alt="image-20220225151231327">
+<figcaption aria-hidden="true">image-20220225151231327</figcaption>
+</figure>
+<h2><span id="模拟数据导入sql">模拟数据导入SQL</span></h2>
+<p>​ 用自己熟悉的编程语言（包括并不限于 C++，R，Python
+等等），产生一个包含 500 万行
+数据的文本文件，每行由两个列组成，第一列是随机产生的长度为 10
+字符的字符串，第二 列是随机产生的 8
+位数字，两列中间用空格分开（如下）</p>
+<p>abfgerjhgg 64758741</p>
+<p>awqwyiuusa 10987622</p>
+<h2><span id="模拟数据">模拟数据</span></h2>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line">num  = <span class="number">5000000</span></span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">"simuhw2.txt"</span>, <span class="string">'w'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(num)):</span><br><span class="line">    temp_num  = <span class="string">''</span>.join(random.sample(string.digits, <span class="number">8</span>))</span><br><span class="line">    temp_char = <span class="string">''</span>.join(random.sample(string.ascii_lowercase, <span class="number">10</span>))</span><br><span class="line">    temp_simu = temp_char + <span class="string">" "</span> + temp_num</span><br><span class="line">    f.writelines(temp_simu)</span><br><span class="line">    f.write(<span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line">f.close()</span><br></pre></td></tr></tbody></table></figure>
+<ol type="1">
+<li>建表</li>
+</ol>
+<p>​ 名字为simuhw2，列名为name和id</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> simuhw2(name varchar2(<span class="number">10</span>),id number(<span class="number">8</span>));</span><br></pre></td></tr></tbody></table></figure>
+<ol start="2" type="1">
+<li>构建文档</li>
+</ol>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">vi simuhw2.ctl</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225224242587.png" alt="image-20220225224242587">
+<figcaption aria-hidden="true">image-20220225224242587</figcaption>
+</figure>
+<ol start="3" type="1">
+<li>导入文件</li>
+</ol>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">sqlldr userid=scott/tiger control=simuhw2.ctl log=simuhw2.log </span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225173651225.png" alt="image-20220225173651225">
+<figcaption aria-hidden="true">image-20220225173651225</figcaption>
+</figure>
+<ol start="5" type="1">
+<li>查看数据</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> simuhw2;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225173915923.png" alt="image-20220225173915923">
+<figcaption aria-hidden="true">image-20220225173915923</figcaption>
+</figure>
+]]></content>
       <categories>
-          
-          <category> 数据库 </category>
-          
+        <category>数据库</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-            <tag> 数据库 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>时间序列学习笔记</title>
-      <link href="/2022/02/12/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-      <url>/2022/02/12/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>数据库</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>时间序列学习笔记</title>
+    <url>/2022/02/12/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[]]></content>
       <categories>
-          
-          <category> 时间序列 </category>
-          
+        <category>时间序列</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 时间序列 </tag>
-            
-            <tag> 学习笔记 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>nohup命令</title>
-      <link href="/2022/01/29/nohup%E5%91%BD%E4%BB%A4/"/>
-      <url>/2022/01/29/nohup%E5%91%BD%E4%BB%A4/</url>
-      
-        <content type="html"><![CDATA[<h1><span id="nohup命令用法"><code>nohup</code>命令用法</span></h1><p>​我们在使用Linux的时候，希望让某个程序在后台运行。在命令的末尾加个&amp;符号后，程序可以在后台运行，但是一旦当前终端关闭（即退出当前帐户），该程序就会停止运行。那假如说我们想要退出当前终端，但又想让程序在后台运行，该如何处理呢？比如我们想讲任务提交到服务器运行，在这种情况下我们就可以使用<code>nohup</code>命令。</p><p>​ <code>nohup</code> 英文全称 no hangup（不挂起），用于在系统后台不挂断地运行命令，退出终端不会影响程序的运行。</p><h2><span id="语法格式">语法格式</span></h2><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup Command [ Arg … ] [　&amp; ]</span><br></pre></td></tr></tbody></table></figure><ul><li><p><strong>Command</strong>：要执行的命令。</p></li><li><p><strong>Arg</strong>：一些参数，可以指定输出文件。</p></li><li><p><strong>&amp;</strong>：让命令在后台执行，终端退出后命令仍旧执行。</p></li></ul><p>​ 无论是否将 <code>nohup</code>命令的输出重定向到终端，输出都将附加到当前目录的<code>nohup.out</code>文件中。如果当前目录的 <code>nohup.out</code>文件不可写，输出重定向到 <code>$HOME/nohup.out</code>文件中。</p><p>​ 可以使用<code>nohup--help</code>获得帮助，更多<code>OPTION</code>如下：</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">--help</span><br><span class="line"> 显示帮助信息并退出</span><br><span class="line">--version</span><br><span class="line"> 显示版本信息并退出</span><br></pre></td></tr></tbody></table></figure><h2><span id="实例">实例</span></h2><p>​比如我们想要在后台运行<code>test.py</code>代码，只需在命令行输入：</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup python -u test.py &amp;</span><br></pre></td></tr></tbody></table></figure><p>​如果仅仅如此使用<code>nohup</code>命令的话，程序的输出会默认重定向到一个<code>nohup.out</code>文件下。如果我们想要输出到指定文件，可另外指定输出文件：</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup .python -u test.py &gt; myout.txt </span><br></pre></td></tr></tbody></table></figure><p>​ 这样一来，把标准输出/错误重定向到指定目录下。</p><p>​当我们想关闭nohup进程时，需要用<code>top</code>找到进程对应的<code>pid</code>，然后使用<code>kill</code>命令，关闭该进程。</p><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 PID</span><br></pre></td></tr></tbody></table></figure>]]></content>
-      
-      
+      <tags>
+        <tag>时间序列</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>生存分析 Introduction</title>
+    <url>/2022/02/15/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%20Introduction/</url>
+    <content><![CDATA[<p>​ 在生物医学研究中，生存分析是非常重要和常见的分析方法。本博客将基于
+学习生存分析。</p>
+<h1><span id="survival-analysis-定义">Survival Analysis 定义</span></h1>
+<p>​ 生存分析的定义为：<strong>Survival analysis is a collection of
+statistical procedures for data analysis for which the outcome variable
+of interest is time until an event occurs.</strong></p>
+<h1><span id="删失数据-censored-data">删失数据 Censored data</span></h1>
+<p>​</p>
+]]></content>
       <categories>
-          
-          <category> Linux </category>
-          
+        <category>生存分析</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> Linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>生存分析</tag>
+      </tags>
+  </entry>
 </search>
