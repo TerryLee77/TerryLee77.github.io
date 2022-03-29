@@ -96,66 +96,6 @@ the length of the subsequence.</p>
       </tags>
   </entry>
   <entry>
-    <title>scott账户解锁及权限配置教程</title>
-    <url>/2022/02/25/Linux%E6%B7%BB%E5%8A%A0Oracle11g%20scott%E8%B4%A6%E6%88%B7%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<p>​ 本文将介绍Linux下添加Oracle11g
-<strong>scott</strong>账户,以及对于权限配置。</p>
-<h1><span id="scott-账户解锁">scott 账户解锁</span></h1>
-<ol type="1">
-<li>使用sysdba登录：</li>
-</ol>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225101907756.png" alt="sys登录">
-<figcaption aria-hidden="true">sys登录</figcaption>
-</figure>
-<ol start="2" type="1">
-<li>执行<code>sql</code>文件，'@'表示在sqlplus执行脚本完成后自动断开连接</li>
-</ol>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line">@$ORACLE_HOME<span class="operator">/</span>rdbms<span class="operator">/</span>admin<span class="operator">/</span>utlsampl.sql</span><br></pre></td></tr></tbody></table></figure>
-<ol start="3" type="1">
-<li>切换为scott用户</li>
-</ol>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">sqlplus scott/tiger</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225102125149.png" alt="切换scott用户">
-<figcaption aria-hidden="true">切换scott用户</figcaption>
-</figure>
-<ol start="4" type="1">
-<li>验证，提取emp表</li>
-</ol>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225102207159.png" alt="提取emp表">
-<figcaption aria-hidden="true">提取emp表</figcaption>
-</figure>
-<h1><span id="解锁view功能">解锁<code>View</code>功能</span></h1>
-<p>做Oracle的实验，需要导入导出视图，在默认设置下，scott下没有视图功能，故需要创建。</p>
-<p>若用scott直接创建，则显示“ORA-01031:
-权限不足”，因此需要赋予权限，方法如下。</p>
-<p>使用<code>sys</code>用户登录，后输入命令</p>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">create</span> <span class="keyword">view</span> <span class="keyword">to</span> scott;</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220311151850880.png" alt="image-20220311151850880">
-<figcaption aria-hidden="true">image-20220311151850880</figcaption>
-</figure>
-<p>切换<code>scott</code>用户，验证</p>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line">conn scott<span class="operator">/</span>tiger;</span><br><span class="line">creat <span class="keyword">view</span> vtop <span class="keyword">as</span> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>;</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220311152012382.png" alt="image-20220311152012382">
-<figcaption aria-hidden="true">image-20220311152012382</figcaption>
-</figure>
-]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-        <tag>数据库</tag>
-        <tag>Linux</tag>
-        <tag>Oracle</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Oracle安装教程</title>
     <url>/2022/02/18/Oracle%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<p>​ 本文将介绍<code>Oracle 11g</code> 在Windows、Docker下安装方法。</p>
@@ -240,6 +180,66 @@ for windows客户端，并进行安装</li>
 <ul>
 <li>[1] https://github.com/wnameless/docker-oracle-xe-11g</li>
 </ul>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>数据库</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>scott账户解锁及权限配置教程</title>
+    <url>/2022/02/25/Linux%E6%B7%BB%E5%8A%A0Oracle11g%20scott%E8%B4%A6%E6%88%B7%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p>​ 本文将介绍Linux下添加Oracle11g
+<strong>scott</strong>账户,以及对于权限配置。</p>
+<h1><span id="scott-账户解锁">scott 账户解锁</span></h1>
+<ol type="1">
+<li>使用sysdba登录：</li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225101907756.png" alt="sys登录">
+<figcaption aria-hidden="true">sys登录</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>执行<code>sql</code>文件，'@'表示在sqlplus执行脚本完成后自动断开连接</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line">@$ORACLE_HOME<span class="operator">/</span>rdbms<span class="operator">/</span>admin<span class="operator">/</span>utlsampl.sql</span><br></pre></td></tr></tbody></table></figure>
+<ol start="3" type="1">
+<li>切换为scott用户</li>
+</ol>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">sqlplus scott/tiger</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225102125149.png" alt="切换scott用户">
+<figcaption aria-hidden="true">切换scott用户</figcaption>
+</figure>
+<ol start="4" type="1">
+<li>验证，提取emp表</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225102207159.png" alt="提取emp表">
+<figcaption aria-hidden="true">提取emp表</figcaption>
+</figure>
+<h1><span id="解锁view功能">解锁<code>View</code>功能</span></h1>
+<p>做Oracle的实验，需要导入导出视图，在默认设置下，scott下没有视图功能，故需要创建。</p>
+<p>若用scott直接创建，则显示“ORA-01031:
+权限不足”，因此需要赋予权限，方法如下。</p>
+<p>使用<code>sys</code>用户登录，后输入命令</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">create</span> <span class="keyword">view</span> <span class="keyword">to</span> scott;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220311151850880.png" alt="image-20220311151850880">
+<figcaption aria-hidden="true">image-20220311151850880</figcaption>
+</figure>
+<p>切换<code>scott</code>用户，验证</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line">conn scott<span class="operator">/</span>tiger;</span><br><span class="line">creat <span class="keyword">view</span> vtop <span class="keyword">as</span> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220311152012382.png" alt="image-20220311152012382">
+<figcaption aria-hidden="true">image-20220311152012382</figcaption>
+</figure>
 ]]></content>
       <categories>
         <category>数据库</category>
@@ -784,128 +784,6 @@ Manage System)</p>
       </tags>
   </entry>
   <entry>
-    <title>数据库第二周练习</title>
-    <url>/2022/02/26/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%BB%83%E4%B9%A0/</url>
-    <content><![CDATA[<h2><span id="环境变量设置">环境变量设置</span></h2>
-<ol type="1">
-<li><p>将<code>SQLPLUS</code>提示符改为<code>SQL=</code></p>
-<p>在<code>sqlplus</code>中输入命令：</p></li>
-</ol>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> sqlprompt "SQL="</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142139201.png" alt="image-20220225142139201">
-<figcaption aria-hidden="true">image-20220225142139201</figcaption>
-</figure>
-<p>​ 若要实现永久修改，需要在<code>shell</code>中输入命令</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">vim $ORACLE_HOME/sqlplus/admin/glogin.sql</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142237991.png" alt="·">
-<figcaption aria-hidden="true">·</figcaption>
-</figure>
-<p>​ 在其中加入</p>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> sqlprompt "SQL="</span><br></pre></td></tr></tbody></table></figure>
-<p>​ 即可实现永久修改。</p>
-<ol start="2" type="1">
-<li>去掉输出结果的列头</li>
-</ol>
-<p>​ 在<code>sqlplus</code>中输入</p>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> heading off</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142617923.png" alt="image-20220225142617923">
-<figcaption aria-hidden="true">image-20220225142617923</figcaption>
-</figure>
-<h2><span id="sql语句练习"><code>SQL</code>语句练习</span></h2>
-<ol type="1">
-<li>列出工资在 2000-3000 之间（包括临界值）并且没有提成的员工</li>
-</ol>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> SAL <span class="keyword">between</span> <span class="number">2000</span> <span class="keyword">and</span> <span class="number">3000</span> <span class="keyword">and</span> COMM <span class="keyword">is</span> <span class="keyword">NULL</span>;</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225143205349.png" alt="image-20220225143205349">
-<figcaption aria-hidden="true">image-20220225143205349</figcaption>
-</figure>
-<ol start="2" type="1">
-<li>列出和 JONES 同一部门的员工名字</li>
-</ol>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ENAME <span class="keyword">from</span> emp <span class="keyword">where</span> DEPTNO <span class="operator">=</span> (<span class="keyword">select</span> DEPTNO <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="operator">=</span> <span class="string">'JONES'</span>);</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225144126767.png" alt="image-20220225144126767">
-<figcaption aria-hidden="true">image-20220225144126767</figcaption>
-</figure>
-<ol start="3" type="1">
-<li>列出名字以 S 开头，名字长度为 5 个字符的员工</li>
-</ol>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="keyword">like</span> <span class="string">'S%'</span> <span class="keyword">and</span> LENGTH(ENAME)<span class="operator">=</span><span class="number">5</span>;</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225145136237.png" alt="image-20220225145136237">
-<figcaption aria-hidden="true">image-20220225145136237</figcaption>
-</figure>
-<ol start="4" type="1">
-<li>列出在芝加哥工作的员工，并且按工资从高到低排列</li>
-</ol>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> (DEPTNO <span class="operator">=</span> (<span class="keyword">select</span> DEPTNO <span class="keyword">from</span> dept <span class="keyword">where</span> LOC <span class="operator">=</span> <span class="string">'CHICAGO'</span>)) <span class="keyword">ORDER</span> <span class="keyword">BY</span> SAL <span class="keyword">desc</span> ;</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225145955750.png" alt="image-20220225145955750">
-<figcaption aria-hidden="true">image-20220225145955750</figcaption>
-</figure>
-<ol start="5" type="1">
-<li>列出姓名以 J 开头，总收入超过 2500 的员工名字</li>
-</ol>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ENAME <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="keyword">like</span> <span class="string">'J%'</span> <span class="keyword">and</span> ((SAL<span class="operator">+</span>COMM)<span class="operator">&gt;</span><span class="number">2500</span> <span class="keyword">or</span> (SAL<span class="operator">&gt;</span><span class="number">2500</span>));</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225151231327.png" alt="image-20220225151231327">
-<figcaption aria-hidden="true">image-20220225151231327</figcaption>
-</figure>
-<h2><span id="模拟数据导入sql">模拟数据导入SQL</span></h2>
-<p>​ 用自己熟悉的编程语言（包括并不限于 C++，R，Python
-等等），产生一个包含 500 万行
-数据的文本文件，每行由两个列组成，第一列是随机产生的长度为 10
-字符的字符串，第二 列是随机产生的 8
-位数字，两列中间用空格分开（如下）</p>
-<p>abfgerjhgg 64758741</p>
-<p>awqwyiuusa 10987622</p>
-<h2><span id="模拟数据">模拟数据</span></h2>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line">num  = <span class="number">5000000</span></span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">"simuhw2.txt"</span>, <span class="string">'w'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(num)):</span><br><span class="line">    temp_num  = <span class="string">''</span>.join(random.sample(string.digits, <span class="number">8</span>))</span><br><span class="line">    temp_char = <span class="string">''</span>.join(random.sample(string.ascii_lowercase, <span class="number">10</span>))</span><br><span class="line">    temp_simu = temp_char + <span class="string">" "</span> + temp_num</span><br><span class="line">    f.writelines(temp_simu)</span><br><span class="line">    f.write(<span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line">f.close()</span><br></pre></td></tr></tbody></table></figure>
-<ol type="1">
-<li>建表</li>
-</ol>
-<p>​ 名字为simuhw2，列名为name和id</p>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> simuhw2(name varchar2(<span class="number">10</span>),id number(<span class="number">8</span>));</span><br></pre></td></tr></tbody></table></figure>
-<ol start="2" type="1">
-<li>构建文档</li>
-</ol>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">vi simuhw2.ctl</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225224242587.png" alt="image-20220225224242587">
-<figcaption aria-hidden="true">image-20220225224242587</figcaption>
-</figure>
-<ol start="3" type="1">
-<li>导入文件</li>
-</ol>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">sqlldr userid=scott/tiger control=simuhw2.ctl log=simuhw2.log </span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225173651225.png" alt="image-20220225173651225">
-<figcaption aria-hidden="true">image-20220225173651225</figcaption>
-</figure>
-<ol start="5" type="1">
-<li>查看数据</li>
-</ol>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> simuhw2;</span><br></pre></td></tr></tbody></table></figure>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225173915923.png" alt="image-20220225173915923">
-<figcaption aria-hidden="true">image-20220225173915923</figcaption>
-</figure>
-]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-        <tag>数据库</tag>
-        <tag>Linux</tag>
-        <tag>Oracle</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>数据库第五周练习</title>
     <url>/2022/03/18/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%94%E5%91%A8%E7%BB%83%E4%B9%A0/</url>
     <content><![CDATA[<ol type="1">
@@ -1054,9 +932,172 @@ Uncommitted（在本次事务中可以读到其他事务中没有提交的数据
       </tags>
   </entry>
   <entry>
+    <title>数据库第二周练习</title>
+    <url>/2022/02/26/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%8C%E5%91%A8%E7%BB%83%E4%B9%A0/</url>
+    <content><![CDATA[<h2><span id="环境变量设置">环境变量设置</span></h2>
+<ol type="1">
+<li><p>将<code>SQLPLUS</code>提示符改为<code>SQL=</code></p>
+<p>在<code>sqlplus</code>中输入命令：</p></li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> sqlprompt "SQL="</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142139201.png" alt="image-20220225142139201">
+<figcaption aria-hidden="true">image-20220225142139201</figcaption>
+</figure>
+<p>​ 若要实现永久修改，需要在<code>shell</code>中输入命令</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">vim $ORACLE_HOME/sqlplus/admin/glogin.sql</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142237991.png" alt="·">
+<figcaption aria-hidden="true">·</figcaption>
+</figure>
+<p>​ 在其中加入</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> sqlprompt "SQL="</span><br></pre></td></tr></tbody></table></figure>
+<p>​ 即可实现永久修改。</p>
+<ol start="2" type="1">
+<li>去掉输出结果的列头</li>
+</ol>
+<p>​ 在<code>sqlplus</code>中输入</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> heading off</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225142617923.png" alt="image-20220225142617923">
+<figcaption aria-hidden="true">image-20220225142617923</figcaption>
+</figure>
+<h2><span id="sql语句练习"><code>SQL</code>语句练习</span></h2>
+<ol type="1">
+<li>列出工资在 2000-3000 之间（包括临界值）并且没有提成的员工</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> SAL <span class="keyword">between</span> <span class="number">2000</span> <span class="keyword">and</span> <span class="number">3000</span> <span class="keyword">and</span> COMM <span class="keyword">is</span> <span class="keyword">NULL</span>;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225143205349.png" alt="image-20220225143205349">
+<figcaption aria-hidden="true">image-20220225143205349</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>列出和 JONES 同一部门的员工名字</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ENAME <span class="keyword">from</span> emp <span class="keyword">where</span> DEPTNO <span class="operator">=</span> (<span class="keyword">select</span> DEPTNO <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="operator">=</span> <span class="string">'JONES'</span>);</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225144126767.png" alt="image-20220225144126767">
+<figcaption aria-hidden="true">image-20220225144126767</figcaption>
+</figure>
+<ol start="3" type="1">
+<li>列出名字以 S 开头，名字长度为 5 个字符的员工</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="keyword">like</span> <span class="string">'S%'</span> <span class="keyword">and</span> LENGTH(ENAME)<span class="operator">=</span><span class="number">5</span>;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225145136237.png" alt="image-20220225145136237">
+<figcaption aria-hidden="true">image-20220225145136237</figcaption>
+</figure>
+<ol start="4" type="1">
+<li>列出在芝加哥工作的员工，并且按工资从高到低排列</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> (DEPTNO <span class="operator">=</span> (<span class="keyword">select</span> DEPTNO <span class="keyword">from</span> dept <span class="keyword">where</span> LOC <span class="operator">=</span> <span class="string">'CHICAGO'</span>)) <span class="keyword">ORDER</span> <span class="keyword">BY</span> SAL <span class="keyword">desc</span> ;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225145955750.png" alt="image-20220225145955750">
+<figcaption aria-hidden="true">image-20220225145955750</figcaption>
+</figure>
+<ol start="5" type="1">
+<li>列出姓名以 J 开头，总收入超过 2500 的员工名字</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ENAME <span class="keyword">from</span> emp <span class="keyword">where</span> ENAME <span class="keyword">like</span> <span class="string">'J%'</span> <span class="keyword">and</span> ((SAL<span class="operator">+</span>COMM)<span class="operator">&gt;</span><span class="number">2500</span> <span class="keyword">or</span> (SAL<span class="operator">&gt;</span><span class="number">2500</span>));</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225151231327.png" alt="image-20220225151231327">
+<figcaption aria-hidden="true">image-20220225151231327</figcaption>
+</figure>
+<h2><span id="模拟数据导入sql">模拟数据导入SQL</span></h2>
+<p>​ 用自己熟悉的编程语言（包括并不限于 C++，R，Python
+等等），产生一个包含 500 万行
+数据的文本文件，每行由两个列组成，第一列是随机产生的长度为 10
+字符的字符串，第二 列是随机产生的 8
+位数字，两列中间用空格分开（如下）</p>
+<p>abfgerjhgg 64758741</p>
+<p>awqwyiuusa 10987622</p>
+<h2><span id="模拟数据">模拟数据</span></h2>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line">num  = <span class="number">5000000</span></span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">"simuhw2.txt"</span>, <span class="string">'w'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(num)):</span><br><span class="line">    temp_num  = <span class="string">''</span>.join(random.sample(string.digits, <span class="number">8</span>))</span><br><span class="line">    temp_char = <span class="string">''</span>.join(random.sample(string.ascii_lowercase, <span class="number">10</span>))</span><br><span class="line">    temp_simu = temp_char + <span class="string">" "</span> + temp_num</span><br><span class="line">    f.writelines(temp_simu)</span><br><span class="line">    f.write(<span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line">f.close()</span><br></pre></td></tr></tbody></table></figure>
+<ol type="1">
+<li>建表</li>
+</ol>
+<p>​ 名字为simuhw2，列名为name和id</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> simuhw2(name varchar2(<span class="number">10</span>),id number(<span class="number">8</span>));</span><br></pre></td></tr></tbody></table></figure>
+<ol start="2" type="1">
+<li>构建文档</li>
+</ol>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">vi simuhw2.ctl</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225224242587.png" alt="image-20220225224242587">
+<figcaption aria-hidden="true">image-20220225224242587</figcaption>
+</figure>
+<ol start="3" type="1">
+<li>导入文件</li>
+</ol>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">sqlldr userid=scott/tiger control=simuhw2.ctl log=simuhw2.log </span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225173651225.png" alt="image-20220225173651225">
+<figcaption aria-hidden="true">image-20220225173651225</figcaption>
+</figure>
+<ol start="5" type="1">
+<li>查看数据</li>
+</ol>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> simuhw2;</span><br></pre></td></tr></tbody></table></figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220225173915923.png" alt="image-20220225173915923">
+<figcaption aria-hidden="true">image-20220225173915923</figcaption>
+</figure>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>数据库</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>数据库第六周练习</title>
     <url>/2022/03/26/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E5%85%AD%E5%91%A8%E7%BB%83%E4%B9%A0/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h2><span id="1整合三个以上的表">1.整合三个以上的表</span></h2><figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t1 (id <span class="type">char</span>(<span class="number">1</span>), g number(<span class="number">3</span>));</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t2 (id <span class="type">char</span>(<span class="number">1</span>), g number(<span class="number">3</span>));</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t3 (id <span class="type">char</span>(<span class="number">1</span>), g number(<span class="number">3</span>));</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="string">'A'</span>,<span class="number">70</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="string">'B'</span>,<span class="number">80</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="string">'C'</span>,<span class="number">75</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="string">'D'</span>,<span class="number">90</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t2 <span class="keyword">VALUES</span>(<span class="string">'B'</span>,<span class="number">70</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t2 <span class="keyword">VALUES</span>(<span class="string">'D'</span>,<span class="number">50</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t2 <span class="keyword">VALUES</span>(<span class="string">'E'</span>,<span class="number">60</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t3 <span class="keyword">VALUES</span>(<span class="string">'A'</span>,<span class="number">90</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t3 <span class="keyword">VALUES</span>(<span class="string">'B'</span>,<span class="number">90</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t3 <span class="keyword">VALUES</span>(<span class="string">'E'</span>,<span class="number">55</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t3 <span class="keyword">VALUES</span>(<span class="string">'F'</span>,<span class="number">93</span>);</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> nvl(t1.id,t2.id),t1.g g1 ,t2.g g2 <span class="keyword">from</span> t1 <span class="keyword">full</span> <span class="keyword">outer</span> <span class="keyword">join</span> t2 <span class="keyword">on</span> t1.id<span class="operator">=</span>t2.id;</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> nvl(temp.id,t3.id),temp.g1 g1,temp.g2 g2,t3.g g3 <span class="keyword">from</span> t3 <span class="keyword">full</span> <span class="keyword">outer</span> <span class="keyword">join</span> </span><br><span class="line">(<span class="keyword">select</span> nvl(t1.id,t2.id) id,t1.g g1 ,t2.g g2 <span class="keyword">from</span> t1 <span class="keyword">full</span> <span class="keyword">outer</span> <span class="keyword">join</span> t2 <span class="keyword">on</span> t1.id<span class="operator">=</span>t2.id) temp <span class="keyword">on</span> t3.id <span class="operator">=</span> temp.id;</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220326174422463.png" alt="image-20220326174422463"></p>
+<h2><span id="2sql语句练习">2.SQL语句练习</span></h2><h3><span id="列出平均总收入工资提成最高的部门名称">列出平均总收入（工资+提成）最高的部门名称</span></h3><figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> d.dname <span class="keyword">from</span> </span><br><span class="line">(<span class="keyword">select</span> deptno,<span class="built_in">avg</span>(sal) num <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> deptno) t, dept d </span><br><span class="line"><span class="keyword">where</span> t.deptno<span class="operator">=</span>d.deptno <span class="keyword">and</span> t.num<span class="operator">=</span>(<span class="keyword">select</span> <span class="built_in">max</span>(<span class="built_in">avg</span>(NVL(COMM,<span class="number">0</span>)<span class="operator">+</span>SAL)) num <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> deptno);</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220326175804268.png" alt="image-20220326175804268"></p>
+<h3><span id="列出部门工资中位数比公司工资中位数高的部门名称">列出部门工资中位数比公司工资中位数高的部门名称</span></h3><figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> d.dname <span class="keyword">from</span> </span><br><span class="line">(<span class="keyword">select</span> deptno, median(sal) num <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> deptno) t, dept d </span><br><span class="line"><span class="keyword">where</span> t.deptno<span class="operator">=</span>d.deptno <span class="keyword">and</span> t.num<span class="operator">&gt;</span>(<span class="keyword">select</span>  median(sal) num <span class="keyword">from</span> emp);</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220326180155008.png" alt="image-20220326180155008"></p>
+<h3><span id="求底层员工即没有直属下属中工资最高的员工名字">求底层员工（即没有直属下属）中工资最高的员工名字</span></h3><p>​        先查出底层员工名单</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> empno <span class="keyword">not</span> <span class="keyword">in</span>(<span class="keyword">select</span> <span class="keyword">distinct</span> mgr <span class="keyword">from</span> emp <span class="keyword">where</span> mgr <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span> );</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> t.ename</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> empno <span class="keyword">not</span> <span class="keyword">in</span>(<span class="keyword">select</span> <span class="keyword">distinct</span> mgr <span class="keyword">from</span> emp <span class="keyword">where</span> mgr <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span> )) t</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">t.sal <span class="operator">=</span> (<span class="keyword">select</span> <span class="built_in">max</span>(sal) <span class="keyword">from</span> (<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> empno <span class="keyword">not</span> <span class="keyword">in</span>(<span class="keyword">select</span> <span class="keyword">distinct</span> mgr <span class="keyword">from</span> emp <span class="keyword">where</span> mgr <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span> )));</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220326183454944.png" alt="image-20220326183454944"></p>
+<h3><span id="列出部门的名称和部门内员工的不同工种数">列出部门的名称和部门内员工的不同工种数</span></h3><figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> d.dname,t.jobcount <span class="keyword">from</span> </span><br><span class="line">(<span class="keyword">select</span> deptno, <span class="built_in">count</span>(<span class="keyword">distinct</span> job) jobcount <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> deptno) t, dept d </span><br><span class="line"><span class="keyword">where</span> t.deptno<span class="operator">=</span>d.deptno ;</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220326183851619.png" alt="image-20220326183851619"></p>
+<h3><span id="求每年进入公司工作的员工数">求每年进入公司工作的员工数</span></h3><figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(hiredate,<span class="string">'yyyy'</span>) <span class="keyword">year</span>,<span class="built_in">count</span>(<span class="keyword">distinct</span>(ename)) count <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> to_char(hiredate,<span class="string">'yyyy'</span>);</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220326184311762.png" alt="image-20220326184311762"></p>
+<h3><span id="把每个部门工资最低的员工的工资调整到与该部门倒数第-2-一致注意有并列的情况">把每个部门工资最低的员工的工资调整到与该部门倒数第 2 一致（注意有并列的情况）</span></h3><p>​        分组排序结果</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,sal,<span class="built_in">row_number</span>() <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> deptno <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">asc</span>) sal_order,deptno <span class="keyword">from</span> scott.emp;</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220326202315698.png" alt="image-20220326202315698"></p>
+<p>​        复制了一份新的emp表<code>emp3</code></p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line">update emp3</span><br><span class="line"><span class="keyword">set</span> sal <span class="operator">=</span> (<span class="keyword">select</span> sal <span class="keyword">from</span> (<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> (<span class="keyword">select</span> ename,sal,<span class="built_in">row_number</span>() <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> deptno <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">asc</span>) sal_order,deptno <span class="keyword">from</span> emp) t <span class="keyword">where</span> t.sal_order <span class="operator">=</span> <span class="number">2</span>) t1 <span class="keyword">where</span> t1.deptno <span class="operator">=</span> emp3.deptno )</span><br><span class="line"><span class="keyword">where</span> ename  </span><br><span class="line"><span class="keyword">in</span></span><br><span class="line">(<span class="keyword">select</span> ename <span class="keyword">from</span> (<span class="keyword">select</span> ename,sal,<span class="built_in">row_number</span>() <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> deptno <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">asc</span>) sal_order,deptno <span class="keyword">from</span> emp) t2 <span class="keyword">where</span> t2.sal_order <span class="operator">=</span> <span class="number">1</span>)</span><br><span class="line">;</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220326204258685.png" alt="image-20220326204258685"></p>
+<h2><span id="3实验">3.实验</span></h2><p>​        对 emp 表中的某些行 select…for update观察其它会话对 emp 表进行的读写操作受到什么影响</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220326205342040.png" alt="image-20220326205342040"></p>
+<p>​        会发现出现表锁，如果设置<code>ALTER SESSION SET ISOLATION_LEVEL=SERIALIZABLE</code>时候，对<code>deptno = 20</code>进行修改也会出现表锁，若使用默认配置，则可以修改</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220326205643714.png" alt="image-20220326205643714"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220326205736409.png" alt="image-20220326205736409"></p>
+<p>​        由于<code>oracle</code>采用RC 隔离级别，通过 where 条件过滤之后，不符合条件的记录上的行锁，会释放掉(虽然这里破坏了“两阶段加锁原则”)；但是RR隔离级别，通过 where 条件走非索引列过滤之后，即使不符合where条件的记录，也是会加行锁。所以从锁方面来看，RC(<code>mysql</code>)的并发应该要好于RR；可以减少一部分锁竞争，减少死锁和锁超时的概率。</p>
+]]></content>
       <categories>
         <category>数据库</category>
       </categories>
