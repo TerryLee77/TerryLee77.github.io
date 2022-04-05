@@ -1221,4 +1221,83 @@ of interest is time until an event occurs.</strong></p>
         <tag>生存分析</tag>
       </tags>
   </entry>
+  <entry>
+    <title>SQL书写规范</title>
+    <url>/2022/04/05/sql%E4%B9%A6%E5%86%99%E8%A7%84%E8%8C%83/</url>
+    <content><![CDATA[<h1><span id="一-sql-书写规范">一、SQL 书写规范</span></h1>
+<p><strong>1、
+语句中出现的所有表名、字段名全部小写，系统保留字、内置函数名、Sql
+保留字大写。</strong></p>
+<p><strong>2、 连接符
+or、in、and、以及＝、=等前后加上一个空格。</strong></p>
+<p><strong>3、 对较为复杂的 sql
+语句加上注释，说明算法、功能。</strong></p>
+<p>​ 注释风格：注释单独成行、放在语句前面。</p>
+<p><strong>(1) 应对不易理解的分支条件表达式加注释；</strong></p>
+<p><strong>(2) 对重要的计算应说明其功能；</strong></p>
+<p><strong>(3)
+过长的函数实现，应将其语句按实现的功能分段加以概括性说明；</strong></p>
+<p><strong>(4) 每条 SQL
+语句均应有注释说明（表名、字段名）。</strong></p>
+<p><strong>(5)
+常量及变量注释时，应注释被保存值的含义(必须)，合法取值的范围(可选)</strong></p>
+<p><strong>(6) 可采用单行/多行注释。（-- 或 /* */ 方式）</strong></p>
+<p><strong>4、 SQL 语句的缩进风格</strong></p>
+<p><strong>(1) 一行有多列，超过 80
+个字符时，基于列对齐原则，采用下行缩进</strong></p>
+<p><strong>(2) where
+子句书写时，每个条件占一行，语句令起一行时，以保留字或连接符开始，连接符右对齐。</strong></p>
+<p><strong>5、 多表连接时，使用表的别名来引用列。</strong></p>
+<p><strong>6、
+供别的文件或函数调用的函数，绝不应使用全局变量交换数据；</strong></p>
+<p><strong>7、
+查找数据库表或视图时，只能取出确实需要的那些字段，不要使用*来代替所有列名。要清楚明白地使用列名，而不能使用列的序号。</strong></p>
+<h1><span id="二-书写优化性能建议">二、书写优化性能建议</span></h1>
+<p><strong>1、避免嵌套连接。例如：A = B and B = C and C = D</strong></p>
+<p><strong>2、where
+条件中尽量减少使用常量比较，改用主机变量</strong></p>
+<p><strong>3、系统可能选择基于规则的优化器，将结果集返回数据量小的表作为驱动表（from
+后边最后一个表）。</strong></p>
+<p><strong>4、大量的排序操作影响系统性能，所以尽量减少 order by 和 group
+by 排序操作。</strong></p>
+<p>如必须使用排序操作，请遵循如下规则：</p>
+<p><strong>(1) 排序尽量建立在有索引的列上。</strong></p>
+<p><strong>(2) 如结果集不需唯一，使用 union all 代替
+union。</strong></p>
+<p><strong>5、索引的使用。</strong></p>
+<p><strong>(1)
+尽量避免对索引列进行计算。如对索引列计算较多，请提请系统管理员建立函数索引。</strong></p>
+<p><strong>(2) 尽量注意比较值与索引列数据类型的一致性。</strong></p>
+<p><strong>(3) 对于复合索引，SQL 语句必须使用主索引列。</strong></p>
+<p><strong>(4) 索引中，尽量避免使用 NULL。</strong></p>
+<p><strong>(5) 对于索引的比较，尽量避免使用 NOT=（!=）</strong></p>
+<p><strong>(6) 查询列和排序列与索引列次序保持一致</strong></p>
+<p><strong>6、尽量避免相同语句由于书写格式的不同，而导致多次语法分析，尽量使用
+Bind 变量。</strong></p>
+<p><strong>7、尽量使用共享的 SQL 语句。</strong></p>
+<p><strong>8、查询的 Where
+过滤原则，应使过滤记录数最多的条件放在最前面。</strong></p>
+<p><strong>9、任何对列的操作都将导致表扫描，它包括数据库函数、计算表达式等等，查询时要尽可能将操作移至等号右边。</strong></p>
+<p><strong>10、in、or
+子句常会使用工作表，使索引失效；如果不产生大量重复值，可以考虑把子句拆开；拆开的子句中应该包含索引。</strong></p>
+<h1><span id="三-其他经验性规则">三、其他经验性规则</span></h1>
+<p><strong>1、尽量少用嵌套查询。如必须，请用 not exist 代替 not in
+子句。</strong></p>
+<p><strong>2、用多表连接代替 EXISTS 子句。</strong></p>
+<p><strong>3、少用 DISTINCT，用 EXISTS 代替</strong></p>
+<p><strong>4、使用 UNION ALL、MINUS、INTERSECT 提高性能</strong></p>
+<p><strong>5、使用 ROWID 提高检索速度。对 Select 得到的单行记录，需进行
+Delete、Update 操作时，使用 ROWID 将会使效率大大提高。</strong></p>
+<p><strong>6、使用优化线索机制进行访问路径控制。</strong></p>
+<p><strong>7、使用 cursor 时，显示光标优于隐式光标。</strong></p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
 </search>
