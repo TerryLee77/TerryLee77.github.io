@@ -1300,4 +1300,39 @@ Delete、Update 操作时，使用 ROWID 将会使效率大大提高。</strong>
         <tag>Oracle</tag>
       </tags>
   </entry>
+  <entry>
+    <title>数据库第七周练习</title>
+    <url>/2022/04/05/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%B8%83%E5%91%A8%E7%BB%83%E4%B9%A0/</url>
+    <content><![CDATA[<h2><span id="q1">Q1</span></h2><p>​        在学生选修表 SC 与课程表 C 放置一些数据，写一条 SQL 求出选修了 C 表所列全部课程 的学生名单</p>
+<p>​        思想：选出学生选课数等于总课程数</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> s </span><br><span class="line"><span class="keyword">where</span> S# <span class="keyword">in</span>(</span><br><span class="line"><span class="keyword">select</span> S# <span class="keyword">from</span> sc <span class="keyword">group</span> <span class="keyword">by</span> S#</span><br><span class="line"><span class="keyword">having</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="operator">=</span> ( <span class="comment">/*该学生的选修的课程门数 =  所有课程的门数*/</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> c</span><br><span class="line">)</span><br><span class="line">);</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220405095826280.png" alt="image-20220405095826280"></p>
+<h2><span id="q2">Q2</span></h2><p>在 SC 表中加入大量数据，然后用 pivot 函数将它转为宽表 SCwide。再用 unpivot 函数将 SCwide 转为窄表</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> SCwide <span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> sc</span><br><span class="line">pivot</span><br><span class="line">(</span><br><span class="line"><span class="built_in">sum</span>(g)</span><br><span class="line"><span class="keyword">for</span> C# <span class="keyword">in</span> (<span class="string">'C1'</span> C1,<span class="string">'C2'</span> C2,<span class="string">'C3'</span> C3,<span class="string">'C4'</span> C4,<span class="string">'C5'</span> C5)</span><br><span class="line">);</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220405102233005.png" alt="image-20220405102233005"></p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> scwide</span><br><span class="line">unpivot</span><br><span class="line">(</span><br><span class="line">g <span class="keyword">for</span> C# <span class="keyword">in</span> (C1,C2,C3,C4,C5)</span><br><span class="line">)</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220405102252174.png" alt="image-20220405102252174"></p>
+<h2><span id="q3">Q3</span></h2><p>用 1 条 SQL 语句建立以下统计表格，分别统计每个部门，每个年份进入公司，每个工种的人数</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> deptno,to_number(to_char(hiredate,<span class="string">'yyyy'</span>)) <span class="keyword">year</span>,job,<span class="built_in">count</span>(empno) num <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">rollup</span>(deptno,to_number(to_char(hiredate,<span class="string">'yyyy'</span>)),job);</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220405104512952.png" alt="image-20220405104512952"></p>
+<h2><span id="q4">Q4</span></h2><p>​        有 A，B 两张表，均有 C1，C2 两列，C1 代表商品名称，C2 代表商品价格。B 中的商品有 些是 A 中的原有商品，有些是在 A 中没有的新商品，要求对 A 表进行更新修改，B 中原有 商品用 B 里的新价格覆盖 A 的原价格，B 中的新商品则插入到 A 中，要求 1 条 SQL 语句完成</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">merge</span> <span class="keyword">into</span> A  </span><br><span class="line"><span class="keyword">using</span> B  </span><br><span class="line"><span class="keyword">on</span>(A.C1<span class="operator">=</span>B.C1)  </span><br><span class="line"><span class="keyword">when</span> matched <span class="keyword">then</span>  </span><br><span class="line">update <span class="keyword">set</span> A.C2 <span class="operator">=</span> B.C2 </span><br><span class="line"><span class="keyword">WHEN</span> <span class="keyword">NOT</span> MATCHED <span class="keyword">THEN</span> </span><br><span class="line"><span class="keyword">INSERT</span>(A.C1,A.C2) <span class="keyword">VALUES</span> (B.C1,B.C2)</span><br><span class="line">;</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220405105603280.png" alt="image-20220405105603280"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220405105610390.png" alt="image-20220405105610390"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TerryLee77/blog_img/img/image-20220405105632896.png" alt="image-20220405105632896"></p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
 </search>

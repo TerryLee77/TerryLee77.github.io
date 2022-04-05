@@ -2,6 +2,15 @@
 <urlset xmlns="https://terrylee77.github.io/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://terrylee77.github.io/2022/04/05/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%B8%83%E5%91%A8%E7%BB%83%E4%B9%A0/</loc>
+    
+    <lastmod>2022-04-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://terrylee77.github.io/2022/04/05/sql%E4%B9%A6%E5%86%99%E8%A7%84%E8%8C%83/</loc>
     
     <lastmod>2022-04-05</lastmod>
