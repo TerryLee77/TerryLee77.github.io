@@ -95,15 +95,15 @@ My research focuses on utilizing data mining from a **causal view** to uncover t
 
 ##  Honors and Awards {#Honors}
 
-- **Finalist**, 2022 Mathematical Contest in Modelling (**Top 2%**)  <span style="float: right;">*May 2022*</span>
+- **Finalist**, 2022 Mathematical Contest in Modelling (**Top 2%**)  <span style="float: right;">*2022.05*</span>
   - Team Leader, built a stock prediction model based on GRU and LSTM; built a trading strategy algorithm based on the Markowitz model, and innovatively introduced risk factors.  
   
 
 - **Second** of the Human-Computer interaction channel in the 2nd Guangzhou Pazhou Algorithm Competition.   <span style="float: right;">*2023*</span>
 
-- Second Prize of the 12th & 13th National Mathematics Competition for College Students  <span style="float: right;">*Dec. 2021 & Dec. 2021*</span>
+- Second Prize of the 12th & 13th National Mathematics Competition for College Students  <span style="float: right;">*2021.12 & 2021.12*</span>
 
-- Second Prize of Guangdong Province in the 2021 National College Students Mathematical Modeling Competition   <span style="float: right;">*Oct. 2021*</span>
+- Second Prize of Guangdong Province in the 2021 National College Students Mathematical Modeling Competition   <span style="float: right;">*2021.10*</span>
 
 - Special Scholarship of SYSU School of Mathematics (**Top 10%**)   <span style="float: right;">*2021*</span>
 
@@ -111,7 +111,7 @@ My research focuses on utilizing data mining from a **causal view** to uncover t
 
 - SYSU Third Prize Outstanding Student Scholarship (**Top 20%**)   <span style="float: right;">*2022 & 2020*</span>
 
-- Honorable Mention, Mathematical Contest in Modeling  (**Top 20%**)   <span style="float: right;">*Feb. 2021*</span>
+- Honorable Mention, Mathematical Contest in Modeling  (**Top 20%**)   <span style="float: right;">*2021.05*</span>
 
 ## Services {#Service}
 - **Conference Reviewer** for ICLR'25
