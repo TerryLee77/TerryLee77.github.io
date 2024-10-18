@@ -90,6 +90,7 @@ My research focuses on utilizing data mining from a **causal view** to uncover t
 ## Internships  {#Internships} 
 - **2022.10 - 2023.01** Data Analytics Intern @ China Guangfa Bank (CGB) <img src="https://gd-hbimg.huaban.com/a8bfc3306d6daa7dc6b375d6669dc2ed5d7470d37694-gNjykG_fw658" alt="CGB Logo" width="75">
 - **2022.07 - 2022.08** Data Analytics Intern @ Digital Guangdong, China Electronics Corporation <img src="../images/digital.png" alt="Digital Guangdong Logo" width="150">
+- **2022.07 - 2022.08** Trainee @ Guangdong Digital Government Construction Talent Training Programme ( 广东数字政府建设人才培养计划 )
 - **2021.07 - 2021.08** Assistant Software Developer @ iFLYTEK South China Artificial Intelligence Research Institute <img src="https://gd-hbimg.huaban.com/3d0f1a25fb260a9b2a00abe6660293e4e37ec8b728bc7-59wvt2_fw658" alt="iFLYTEK Logo" width="80">
 
 
@@ -101,7 +102,7 @@ My research focuses on utilizing data mining from a **causal view** to uncover t
 
 - **Second** of the Human-Computer interaction channel in the 2nd Guangzhou Pazhou Algorithm Competition.   <span style="float: right;">*2023*</span>
 
-- Second Prize of the 12th & 13th National Mathematics Competition for College Students  <span style="float: right;">*2021.12 & 2021.12*</span>
+- Second Prize of the 12th & 13th National Mathematics Competition for College Students  <span style="float: right;">*2020.12 & 2021.12*</span>
 
 - Second Prize of Guangdong Province in the 2021 National College Students Mathematical Modeling Competition   <span style="float: right;">*2021.10*</span>
 
@@ -110,6 +111,9 @@ My research focuses on utilizing data mining from a **causal view** to uncover t
 - SYSU Zhong Youchu Scholarship (**Top 10%**)   <span style="float: right;">*2020*</span>
 
 - SYSU Third Prize Outstanding Student Scholarship (**Top 20%**)   <span style="float: right;">*2022 & 2020*</span>
+
+- Outstanding Trainees of Guangdong Digital Government Construction Talent Training Programme (Political and Digital Academy) <span style="float: right;">*2022.08*</span>
+
 
 - Honorable Mention, Mathematical Contest in Modeling  (**Top 20%**)   <span style="float: right;">*2021.05*</span>
 
