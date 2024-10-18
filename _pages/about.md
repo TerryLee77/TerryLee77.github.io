@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: ""
+title: "About Me"
 author_profile: true
 redirect_from: 
   - /about/
@@ -9,10 +9,43 @@ redirect_from:
 
 I am currently an M.Phil. candidate in the AI Thrust at [The Hong Kong University of Science and Technology (Guangzhou)](https://hkust-gz.edu.cn/academics/four-hubs/information-hub/artificial-intelligence), supervised by [Prof. Hui Xiong](https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao) and [Prof. Sihong Xie](https://sihongxie.github.io/). Additionally, I collaborate closely with with [Dr. Yongqiang Chen](https://lfhase.win/) at [CMU-CLeaR group](https://www.cmu.edu/dietrich/causality/). I hold a Bachelor's degree in Statistics from the School of Mathematics at [Sun Yat-Sen University](https://math.sysu.edu.cn/).
 
-His research focuses on utilizing data mining from a causal view to uncover the mechanisms underlying complex real-world phenomena.
+My research focuses on utilizing data mining from a **causal view** to uncover the mechanisms underlying complex real-world phenomena.
 
-## Publications {#Publications}
+<span style="color: red;">I am seeking a Ph.D. opportunity beginning in Fall 2025.</span>  If my research interests align with yours, I would be grateful for the opportunity to discuss the possibility of working together as an advisee. Please feel free to reach out if you would be open to an interview or further conversation.
 
+
+
+## News {#News}
+
+- 2024.10: Submitted a paper about LLMs and Causal Discovery to ICLR'25 as first author. Thanks Yongqiang and Chenxi for their help!
+
+
+
+## Publications & Preprint {#Publications}
+
+<!-- <div style="margin-bottom: 20px;">
+    <h3>Can Large Language Models Help Experimental Design for Causal Discovery?</h3>
+    <p style="margin: 5px 0;"><strong>Junyi Li</strong>, Yongqiang Chen, Chenxi Liu, Qianyi Cai, Tongliang Liu, Bo Han, Kun Zhang, Hui Xiong</p>
+    <p style="margin: 5px 0; font-style: italic;">Submitted to The Thirteenth International Conference on Learning Representations, 2024 (under review)</p>
+</div> -->
+
+<div style="margin-bottom: 20px;">
+    <h3>Improving Portfolio Analysis with Instrumented Principal Component Analysis</h3>
+    <p style="margin: 5px 0;"><strong>Junyi Li</strong>, Wenting Zhou, Haoqian Li, Haisheng Yang</p>
+    <p style="margin: 5px 0; font-style: italic;">Quantitative Finance and Risk Management, Capital University of Economics and Business, 2023</p>
+</div>
+<!-- 
+<div style="margin-bottom: 20px;">
+    <h3>Continual Test-time Training on Graphs via Adaptive Prompts Integration</h3>
+    <p style="margin: 5px 0;">Qianyi Cai, Ziyue Qiao, Rui Cai, Huijie Liu, <strong>Junyi Li</strong>, Xiao Luo, Hui Xiong</p>
+    <p style="margin: 5px 0; font-style: italic;">Submitted to The Web Conference 2025, 2024 (under review)</p>
+</div>
+
+<div style="margin-bottom: 20px;">
+    <h3>SEE: See Everything Every Time - Broader Light Range Image Enhancement via Events</h3>
+    <p style="margin: 5px 0;">Yunfan Lu, Xiaogang Xu, Hao Lu, Yanlin Qian, Bin Yang, <strong>Junyi Li</strong>, Qianyi Cai, Weiyu Guo, Hui Xiong</p>
+    <p style="margin: 5px 0; font-style: italic;">Submitted to The Thirteenth International Conference on Learning Representations, 2024 (under review)</p>
+</div> -->
 
 
 ## Education {#Education}
@@ -80,5 +113,5 @@ His research focuses on utilizing data mining from a causal view to uncover the 
 
 - Honorable Mention, Mathematical Contest in Modeling  (**Top 20%**)   <span style="float: right;">*Feb. 2021*</span>
 
-## Services 
+## Services {#Service}
 - **Conference Reviewer** for ICLR'25
