@@ -90,7 +90,7 @@ My research focuses on utilizing data mining from a **causal view** to uncover t
 ## Internships  {#Internships} 
 - **2022.10 - 2023.01** Data Analytics Intern @ China Guangfa Bank (CGB) <img src="https://gd-hbimg.huaban.com/a8bfc3306d6daa7dc6b375d6669dc2ed5d7470d37694-gNjykG_fw658" alt="CGB Logo" width="75">
 - **2022.07 - 2022.08** Data Analytics Intern @ Digital Guangdong, China Electronics Corporation <img src="../images/digital.png" alt="Digital Guangdong Logo" width="150">
-- **2022.07 - 2022.08** Trainee @ Guangdong Digital Government Construction Talent Training Programme ( 广东数字政府建设人才培养计划 )
+- **2022.07 - 2022.08** Trainee @ Guangdong Digital Government Construction Talent Training Programme (广东数字政府建设人才培养计划)
 - **2021.07 - 2021.08** Assistant Software Developer @ iFLYTEK South China Artificial Intelligence Research Institute <img src="https://gd-hbimg.huaban.com/3d0f1a25fb260a9b2a00abe6660293e4e37ec8b728bc7-59wvt2_fw658" alt="iFLYTEK Logo" width="80">
 
 
