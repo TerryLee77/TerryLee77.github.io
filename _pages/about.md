@@ -7,9 +7,10 @@ redirect_from:
   - /about.html
 ---
 
-I am currently an M.Phil. candidate in the AI Thrust at [The Hong Kong University of Science and Technology (Guangzhou)](https://hkust-gz.edu.cn/academics/four-hubs/information-hub/artificial-intelligence), supervised by [Prof. Hui Xiong](https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao) and [Prof. Sihong Xie](https://sihongxie.github.io/). Additionally, I collaborate closely with with [Dr. Yongqiang Chen](https://lfhase.win/) at [CMU-CLeaR group](https://www.cmu.edu/dietrich/causality/). I hold a Bachelor's degree in Statistics from the School of Mathematics at [Sun Yat-Sen University](https://math.sysu.edu.cn/).
+I am currently an M.Phil. candidate in the AI Thrust at [The Hong Kong University of Science and Technology (Guangzhou)](https://hkust-gz.edu.cn/academics/four-hubs/information-hub/artificial-intelligence), supervised by [Prof. Hui Xiong](https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao), an IEEE and AAAS Fellow and [Prof. Sihong Xie](https://sihongxie.github.io/). Additionally, I collaborate closely with with [Dr. Yongqiang Chen](https://lfhase.win/) at [CMU-CLeaR group](https://www.cmu.edu/dietrich/causality/). I hold a Bachelor's degree in Statistics from the School of Mathematics at [Sun Yat-Sen University](https://math.sysu.edu.cn/).
 
-My research focuses on utilizing data mining from a **causal view** to uncover the mechanisms underlying complex real-world phenomena.
+My current research focuses on utilizing **Data Mining** from a causal view to uncover the mechanisms underlying complex real-world phenomena. And also, I'm interested in **Large Language Models**, and **AI+X** applications.
+
 
 <span style="color: red;">I am seeking a Ph.D. opportunity beginning in Fall 2025.</span>  If my research interests align with yours, I would be grateful for the opportunity to discuss the possibility of working together as an advisee. Please feel free to reach out if you would be open to an interview or further conversation.
 
@@ -39,9 +40,9 @@ My research focuses on utilizing data mining from a **causal view** to uncover t
     <h3>Continual Test-time Training on Graphs via Adaptive Prompts Integration</h3>
     <p style="margin: 5px 0;">Qianyi Cai, Ziyue Qiao, Rui Cai, Huijie Liu, <strong>Junyi Li</strong>, Xiao Luo, Hui Xiong</p>
     <p style="margin: 5px 0; font-style: italic;">Submitted to The Web Conference 2025, 2024 (under review)</p>
-</div>
+</div> -->
 
-<div style="margin-bottom: 20px;">
+<!-- <div style="margin-bottom: 20px;">
     <h3>SEE: See Everything Every Time - Broader Light Range Image Enhancement via Events</h3>
     <p style="margin: 5px 0;">Yunfan Lu, Xiaogang Xu, Hao Lu, Yanlin Qian, Bin Yang, <strong>Junyi Li</strong>, Qianyi Cai, Weiyu Guo, Hui Xiong</p>
     <p style="margin: 5px 0; font-style: italic;">Submitted to The Thirteenth International Conference on Learning Representations, 2024 (under review)</p>
