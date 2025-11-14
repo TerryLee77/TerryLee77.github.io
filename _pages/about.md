@@ -21,7 +21,7 @@ Thanks for your reading! If you are interested in my research, welcome for discu
 
 ## News {#News}
 
-- 2024.10: Submitted a paper about LLMs and Causal Discovery to ICLR'25 as first author. Thanks Yongqiang and Chenxi for their help!
+- 2025.06: Our paper about [LLM causality in experiment design](https://arxiv.org/abs/2503.01139) is accepted as oral presentation in [ICML SIM Workshop](https://sites.google.com/view/sim-icml2025).
 
 
 
