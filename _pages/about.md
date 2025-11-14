@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-I am currently an Ph.D. student in the DSA Thrust at [The Hong Kong University of Science and Technology (Guangzhou)](https://hkust-gz.edu.cn/academics/four-hubs/information-hub/artificial-intelligence), supervised by [Prof. Ningning Ding](https://ningningding.com/). Additionally, I collaborate closely with with [Dr. Yongqiang Chen](https://lfhase.win/) at [CMU-CLeaR group](https://www.cmu.edu/dietrich/causality/).  Before starting my Ph.D., I obtained my M.Phil. in AI at HKUST(GZ) in 2025, under the supervision of [Prof. Hui Xiong](https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao) (Fellow of IEEE, AAAI, AAAS) and [Prof. Sihong Xie](https://sihongxie.github.io/).
+I am currently a first-year Ph.D. student in the DSA Thrust at [The Hong Kong University of Science and Technology (Guangzhou)](https://hkust-gz.edu.cn/academics/four-hubs/information-hub/artificial-intelligence), supervised by [Prof. Ningning Ding](https://ningningding.com/). Additionally, I collaborate closely with with [Dr. Yongqiang Chen](https://lfhase.win/) at [CMU-CLeaR group](https://www.cmu.edu/dietrich/causality/).  Before starting my Ph.D., I obtained my M.Phil. in AI at HKUST(GZ) in 2025, under the supervision of [Prof. Hui Xiong](https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao) (Fellow of IEEE, AAAI, AAAS) and [Prof. Sihong Xie](https://sihongxie.github.io/).
 I hold a Bachelor's degree in Statistics from the School of Mathematics at [Sun Yat-Sen University](https://math.sysu.edu.cn/).
 
 My research centers on building **trustworthy large language models**, especially in the area of **LLM Machine Unlearning** to enhance model controllability, safety, and reliability. Prior to this, my work focused on causal approaches to data mining, aiming to reveal the underlying mechanisms of complex real-world systems. Beyond these topics, I am also interested in *Diffusion LLMs*.
@@ -48,7 +48,7 @@ Thanks for your reading! If you are interested in my research, welcome for discu
 <div style="margin-bottom: 20px;">
     <h3>SEE: See Everything Every Time - Broader Light Range Image Enhancement via Events</h3>
     <p style="margin: 5px 0;">Yunfan Lu, Xiaogang Xu, Hao Lu, Yanlin Qian, Pengteng Li, Huizai Yao, Bin Yang, Junyi Li, Qianyi Cai, Weiyu Guo, Hui Xiong</p>
-    <p style="margin: 5px 0; font-style: italic;">International Journal of Computer Vision ， 2025</p>
+    <p style="margin: 5px 0; font-style: italic;">International Journal of Computer Vision, 2025</p>
 </div>
 
 
@@ -70,7 +70,7 @@ Thanks for your reading! If you are interested in my research, welcome for discu
         </div>
         <ul style="list-style: none; padding-left: 0; margin: 0; margin-top: 5px; font-size: 0.9em;">
             <li style="margin-left: 15px;">- Doctor of Philosophy , Data Science and Analytics Thrust  </li>
-            <li style="margin-left: 15px;">- Supervisor: <a href="https://ningningding.com/">Prof. Ningning Ding</a>,</li>
+            <li style="margin-left: 15px;">- Supervisor: <a href="https://ningningding.com/">Prof. Ningning Ding</a></li>
         </ul>
     </div>
 </div>
@@ -104,6 +104,9 @@ Thanks for your reading! If you are interested in my research, welcome for discu
 </div>
 
 
+## Services {#Service}
+- **Conference Reviewer** : ICLR'25
+- **Journal Reviewer** : IJCV
 
 ## Internships  {#Internships} 
 - **2022.10 - 2023.01** Data Analytics Intern @ China Guangfa Bank (CGB) 
@@ -137,6 +140,3 @@ Thanks for your reading! If you are interested in my research, welcome for discu
 
 - Honorable Mention, Mathematical Contest in Modeling  (**Top 20%**)   <span style="float: right;">*2021.05*</span>
 
-## Services {#Service}
-- **Conference Reviewer** : ICLR'25
-- **Journal Reviewer** : IJCV
