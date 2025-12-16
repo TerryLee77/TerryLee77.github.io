@@ -21,6 +21,8 @@ Thanks for your reading! If you are interested in my research, welcome for discu
 
 ## News {#News}
 
+- 2025.12: Glad to recieve [Tinker Research Grant](https://thinkingmachines.ai/blog/tinker-research-and-teaching-grants/) from Thinking Machines Lab.
+
 - 2025.06: Our paper about [LLM causality in experiment design](https://arxiv.org/abs/2503.01139) is accepted as oral presentation in [ICML SIM Workshop](https://sites.google.com/view/sim-icml2025).
 
 
@@ -120,7 +122,7 @@ Thanks for your reading! If you are interested in my research, welcome for discu
 
 ##  Honors and Awards {#Honors}
 
-- Tinker Research Grant, <span style="float: right;">*2025.12*</span>
+- Tinker Research Grant <span style="float: right;">*2025.12*</span>
 
 - **Finalist**, 2022 Mathematical Contest in Modelling (**Top 2%**)  <span style="float: right;">*2022.05*</span>
   <!-- - Team Leader, built a stock prediction model based on GRU and LSTM; built a trading strategy algorithm based on the Markowitz model, and innovatively introduced risk factors.   -->
