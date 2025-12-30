@@ -7,21 +7,21 @@ redirect_from:
   - /about.html
 ---
 
-I am currently a first-year Ph.D. student in the DSA Thrust at [The Hong Kong University of Science and Technology (Guangzhou)](https://hkust-gz.edu.cn/academics/four-hubs/information-hub/artificial-intelligence), supervised by [Prof. Ningning Ding](https://ningningding.com/). Additionally, I collaborate closely with [Dr. Yongqiang Chen](https://lfhase.win/) at [CMU-CLeaR group](https://www.cmu.edu/dietrich/causality/).  Before starting my Ph.D., I obtained my M.Phil. in AI at HKUST(GZ) in 2025, under the supervision of [Prof. Hui Xiong](https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao) (Fellow of IEEE, AAAI, AAAS) and [Prof. Sihong Xie](https://sihongxie.github.io/).
+I am currently a first-year Ph.D. student in the DSA Thrust at [The Hong Kong University of Science and Technology (Guangzhou)](https://hkust-gz.edu.cn/academics/four-hubs/information-hub/artificial-intelligence), supervised by [Prof. Ningning Ding](https://ningningding.com/). Additionally, I collaborate closely with [Dr. Yongqiang Chen](https://lfhase.win/) at the [CMU-CLeaR group](https://www.cmu.edu/dietrich/causality/). Before starting my Ph.D., I obtained my M.Phil. in AI at HKUST(GZ) in 2025, under the supervision of [Prof. Hui Xiong](https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao) (Fellow of IEEE, AAAI, AAAS) and [Prof. Sihong Xie](https://sihongxie.github.io/).
 I hold a Bachelor's degree in Statistics from the School of Mathematics at [Sun Yat-Sen University](https://math.sysu.edu.cn/).
 
-My research centers on building **trustworthy large language models**, especially in the area of **LLM Machine Unlearning** to enhance model controllability, safety, and reliability. Prior to this, my work focused on causal approaches to data mining, aiming to reveal the underlying mechanisms of complex real-world systems. Beyond these topics, I am also interested in *Diffusion LLMs*.
+My research centers on building **trustworthy Large Language Models**, especially in the area of **LLM Machine Unlearning** to enhance model controllability, safety, and reliability. Prior to this, my work focused on **causal approaches** to data mining, aiming to reveal the underlying mechanisms of complex real-world systems. Beyond these topics, I am also interested in *Diffusion LLMs*.
 
 
-<!-- <span style="color: red;">I am seeking a Ph.D. opportunity beginning in Fall 2025.</span>  If my research interests align with yours, I would be grateful for the opportunity to discuss the possibility of working together as an advisee. Please feel free to reach out if you would be open to an interview or further conversation. -->
+<!-- <span style="color: red;">I am seeking a Ph.D. opportunity beginning in Fall 2025.</span>  If my research interests align with yours, I would be grateful for the opportunity to discuss the possibility of working together as your advisee. Please feel free to reach out if you would be open to an interview or further conversation. -->
 
-Thanks for your reading! If you are interested in my research, welcome for discussion and collaboration!
+Thanks for reading! If you are interested in my research, feel free to reach out for discussion and collaboration!
 
 
 
 ## News {#News}
 
-- 2025.12: Glad to receive [Tinker Research Grant](https://thinkingmachines.ai/blog/tinker-research-and-teaching-grants/) from Thinking Machines Lab.
+- 2025.12: Glad to receive the [Tinker Research Grant](https://thinkingmachines.ai/blog/tinker-research-and-teaching-grants/) from Thinking Machines Lab.
 
 - 2025.06: Our paper about [LLM causality in experiment design](https://arxiv.org/abs/2503.01139) is accepted as oral presentation in [ICML SIM Workshop](https://sites.google.com/view/sim-icml2025).
 
@@ -60,7 +60,7 @@ Thanks for your reading! If you are interested in my research, welcome for discu
   - Master of Philosophy, Department of Artificial Intelligence
   - Supervisor: [Prof. Hui Xiong](https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao) Co-supervisor: [Prof. Sihong Xie](https://sihongxie.github.io/)
 - 2019.09 - 2023.07,  **Sun Yat-Sen University**
-  - Bachelor of Statistic, School of Mathematic
+  - Bachelor of Statistics, School of Mathematics
   - Member of [Southern China Center for Statistical Science](https://math.sysu.edu.cn/scrcss/), Supervised by Prof. Haisheng Yang -->
 
 <div style="display: flex; align-items: center; margin-bottom: 15px;">
@@ -71,7 +71,7 @@ Thanks for your reading! If you are interested in my research, welcome for discu
             <em>2025.09 - present </em>
         </div>
         <ul style="list-style: none; padding-left: 0; margin: 0; margin-top: 5px; font-size: 0.9em;">
-            <li style="margin-left: 15px;">- Doctor of Philosophy , Data Science and Analytics Thrust  </li>
+            <li style="margin-left: 15px;">- Doctor of Philosophy, Data Science and Analytics Thrust</li>
             <li style="margin-left: 15px;">- Supervisor: <a href="https://ningningding.com/">Prof. Ningning Ding</a></li>
         </ul>
     </div>
@@ -99,7 +99,7 @@ Thanks for your reading! If you are interested in my research, welcome for discu
             <span style="margin-left: 20px; white-space: nowrap; font-size: 0.9em;"><em>2019.09 - 2023.07</em></span>
         </div>
         <ul style="list-style: none; padding-left: 0; margin: 0; margin-top: 5px; font-size: 0.9em;">
-            <li style="margin-left: 15px;">- Bachelor of Statistic, School of Mathematic</li>
+            <li style="margin-left: 15px;">- Bachelor of Statistics, School of Mathematics</li>
             <li style="margin-left: 15px;">- Member of <a href="https://math.sysu.edu.cn/scrcss/">Southern China Center for Statistical Science</a>, Supervised by Prof. Haisheng Yang</li>
         </ul>
     </div>
@@ -124,7 +124,7 @@ Thanks for your reading! If you are interested in my research, welcome for discu
 
 - Tinker Research Grant from Thinking Machines Lab <span style="float: right;">*2025.12*</span>
 
-- **Finalist**, 2022 Mathematical Contest in Modelling (**Top 2%**)  <span style="float: right;">*2022.05*</span>
+- **Finalist**, 2022 Mathematical Contest in Modeling (**Top 2%**)  <span style="float: right;">*2022.05*</span>
   <!-- - Team Leader, built a stock prediction model based on GRU and LSTM; built a trading strategy algorithm based on the Markowitz model, and innovatively introduced risk factors.   -->
 
 - **Second** of the Human-Computer interaction channel in the 2nd Guangzhou Pazhou Algorithm Competition.   <span style="float: right;">*2023*</span>
