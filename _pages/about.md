@@ -110,6 +110,9 @@ Thanks for reading! If you are interested in my research, feel free to reach out
 - **Conference Reviewer** : ICLR'25
 - **Journal Reviewer** : IJCV
 
+## Teaching Experiences:
+-  **UFUG 2103 (UG)** Linear Algebra, Spring 2025
+
 ## Internships  {#Internships} 
 - **2022.10 - 2023.01** Data Analytics Intern @ China Guangfa Bank (CGB) 
 <!-- <img src="https://gd-hbimg.huaban.com/a8bfc3306d6daa7dc6b375d6669dc2ed5d7470d37694-gNjykG_fw658" alt="CGB Logo" width="75"> -->
