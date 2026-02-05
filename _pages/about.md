@@ -21,6 +21,8 @@ Thanks for reading! If you are interested in my research, feel free to reach out
 
 ## News {#News}
 
+- 2026.02: Invited as a Reviewer for KDD26.
+
 - 2025.12: Glad to receive the [Tinker Research Grant](https://thinkingmachines.ai/blog/tinker-research-and-teaching-grants/) from Thinking Machines Lab.
 
 - 2025.06: Our paper about [LLM causality in experiment design](https://arxiv.org/abs/2503.01139) is accepted as oral presentation in [ICML SIM Workshop](https://sites.google.com/view/sim-icml2025).
@@ -107,7 +109,7 @@ Thanks for reading! If you are interested in my research, feel free to reach out
 
 
 ## Services {#Service}
-- **Conference Reviewer** : ICLR'25
+- **Conference Reviewer** : ICLR'25, KDD 2026 AI4Sciences Track
 - **Journal Reviewer** : IJCV
 
 ## Teaching Experiences:
