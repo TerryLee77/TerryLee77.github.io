@@ -37,11 +37,11 @@ Thanks for reading! If you are interested in my research, feel free to reach out
     <p style="margin: 5px 0; font-style: italic;">In ICML Workshop on Scaling up Intervention Models, <span style="color: red;">Oral presentation</span>, 2025.</p>
 </div>
 
-<div style="margin-bottom: 20px;">
+<!-- <div style="margin-bottom: 20px;">
     <h3>Improving Portfolio Analysis with Instrumented Principal Component Analysis</h3>
     <p style="margin: 5px 0;"><strong>Junyi Li</strong>, Wenting Zhou, Haoqian Li, Haisheng Yang</p>
     <p style="margin: 5px 0; font-style: italic;">Quantitative Finance and Risk Management, Capital University of Economics and Business, 2023</p>
-</div>
+</div> -->
 <!-- 
 <div style="margin-bottom: 20px;">
     <h3>Continual Test-time Training on Graphs via Adaptive Prompts Integration</h3>
