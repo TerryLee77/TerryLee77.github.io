@@ -36,7 +36,7 @@ Thanks for reading! If you are interested in my research, feel free to reach out
     <h3>	CiPO: Counterfactual Unlearning for Large Reasoning Models through Iterative Preference Optimization
     </h3>
     <p style="margin: 5px 0;"><strong>Junyi Li</strong>, Yongqiang Chen, Ningning Ding</p>
-    <p style="margin: 5px 0; font-style: italic;">In ACL Main conference, 2026.</p>
+    <p style="margin: 5px 0; font-style: italic;">In Proceedings of the Association for Computational Linguistics,, 2026.</p>
 </div>
 
 
