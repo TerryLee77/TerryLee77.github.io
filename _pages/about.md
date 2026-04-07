@@ -21,6 +21,8 @@ Thanks for reading! If you are interested in my research, feel free to reach out
 
 ## News {#News}
 
+- 2026.04: One paper about LLM Unlearning is accepeted by [ACL 2026 Main Conference](https://2026.aclweb.org/) !
+
 - 2026.02: Invited as a Reviewer for KDD26.
 
 - 2025.12: Glad to receive the [Tinker Research Grant](https://thinkingmachines.ai/blog/tinker-research-and-teaching-grants/) from Thinking Machines Lab.
@@ -30,6 +32,13 @@ Thanks for reading! If you are interested in my research, feel free to reach out
 
 
 ## Publications & Preprint {#Publications}
+<div style="margin-bottom: 20px;">
+    <h3>	CiPO: Counterfactual Unlearning for Large Reasoning Models through Iterative Preference Optimization
+    </h3>
+    <p style="margin: 5px 0;"><strong>Junyi Li</strong>, Yongqiang Chen, Ningning Ding</p>
+    <p style="margin: 5px 0; font-style: italic;">In ACL Main conference, 2026.</p>
+</div>
+
 
 <div style="margin-bottom: 20px;">
     <h3>Can Large Language Models Help Experimental Design for Causal Discovery?</h3>
