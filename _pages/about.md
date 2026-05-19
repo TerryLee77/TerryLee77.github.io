@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-I am currently a first-year Ph.D. student in the DSA Thrust at [The Hong Kong University of Science and Technology (Guangzhou)](https://hkust-gz.edu.cn/academics/four-hubs/information-hub/artificial-intelligence), supervised by [Prof. Ningning Ding](https://ningningding.com/). Additionally, I collaborate closely with [Dr. Yongqiang Chen](https://lfhase.win/) at the [CMU-CLeaR group](https://www.cmu.edu/dietrich/causality/). Before starting my Ph.D., I obtained my M.Phil. in AI at HKUST(GZ) in 2025, under the supervision of [Prof. Hui Xiong](https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao) (Fellow of IEEE, AAAI, AAAS) and [Prof. Sihong Xie](https://sihongxie.github.io/).
+I am currently a first-year Ph.D. student in the DSA Thrust at [The Hong Kong University of Science and Technology (Guangzhou)](https://hkust-gz.edu.cn/academics/four-hubs/information-hub/artificial-intelligence), supervised by [Prof. Ningning Ding](https://ningningding.com/) and co-supervised by [Prof. Hui Xiong](https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao) (Fellow of ACM, AAAS, AAAI, and IEEE). Additionally, I collaborate closely with [Dr. Yongqiang Chen](https://lfhase.win/) at the [CMU-CLeaR group](https://www.cmu.edu/dietrich/causality/). Before starting my Ph.D., I obtained my M.Phil. in AI at HKUST(GZ) in 2025, under the supervision of [Prof. Hui Xiong](https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao) and [Prof. Sihong Xie](https://sihongxie.github.io/).
 I hold a Bachelor's degree in Statistics from the School of Mathematics at [Sun Yat-Sen University](https://math.sysu.edu.cn/).
 
 My research centers on building **trustworthy Large Language Models**, especially in the area of **LLM Machine Unlearning** to enhance model controllability, safety, and reliability. Prior to this, my work focused on **causal approaches** to data mining, aiming to reveal the underlying mechanisms of complex real-world systems. Beyond these topics, I am also interested in *Diffusion LLMs*.
@@ -21,7 +21,7 @@ Thanks for reading! If you are interested in my research, feel free to reach out
 
 ## News {#News}
 
-- 2026.04: One paper about LLM Unlearning is accepeted by [ACL 2026 Main Conference](https://2026.aclweb.org/) !
+- 2026.04: One paper about LLM Unlearning is accepted as an oral presentation by [ACL 2026 Main Conference](https://2026.aclweb.org/) !
 
 - 2026.02: Invited as a Reviewer for KDD26.
 
@@ -36,7 +36,7 @@ Thanks for reading! If you are interested in my research, feel free to reach out
     <h3>	CiPO: Counterfactual Unlearning for Large Reasoning Models through Iterative Preference Optimization
     </h3>
     <p style="margin: 5px 0;"><strong>Junyi Li</strong>, Yongqiang Chen, Ningning Ding</p>
-    <p style="margin: 5px 0; font-style: italic;">In Proceedings of the Association for Computational Linguistics, 2026.</p>
+    <p style="margin: 5px 0; font-style: italic;">In Proceedings of the Association for Computational Linguistics, <span style="color: red;">Oral presentation</span>, 2026.</p>
 </div>
 
 
@@ -46,18 +46,17 @@ Thanks for reading! If you are interested in my research, feel free to reach out
     <p style="margin: 5px 0; font-style: italic;">In ICML Workshop on Scaling up Intervention Models, <span style="color: red;">Oral presentation</span>, 2025.</p>
 </div>
 
+<div style="margin-bottom: 20px;">
+    <h3>Continual Test-time Training on Graphs via Adaptive Prompts Integration</h3>
+    <p style="margin: 5px 0;">Qianyi Cai, Ziyue Qiao, Rui Cai, Huijie Liu, <strong>Junyi Li</strong>, Xiao Luo, Hui Xiong</p>
+    <p style="margin: 5px 0; font-style: italic;">IEEE Transactions on Pattern Analysis and Machine Intelligence, 2026.</p>
+</div>
+
 <!-- <div style="margin-bottom: 20px;">
     <h3>Improving Portfolio Analysis with Instrumented Principal Component Analysis</h3>
     <p style="margin: 5px 0;"><strong>Junyi Li</strong>, Wenting Zhou, Haoqian Li, Haisheng Yang</p>
     <p style="margin: 5px 0; font-style: italic;">Quantitative Finance and Risk Management, Capital University of Economics and Business, 2023</p>
 </div> -->
-<!-- 
-<div style="margin-bottom: 20px;">
-    <h3>Continual Test-time Training on Graphs via Adaptive Prompts Integration</h3>
-    <p style="margin: 5px 0;">Qianyi Cai, Ziyue Qiao, Rui Cai, Huijie Liu, <strong>Junyi Li</strong>, Xiao Luo, Hui Xiong</p>
-    <p style="margin: 5px 0; font-style: italic;">Submitted to The Web Conference 2025, 2024 (under review)</p>
-</div> -->
-
 <div style="margin-bottom: 20px;">
     <h3>SEE: See Everything Every Time - Broader Light Range Image Enhancement via Events</h3>
     <p style="margin: 5px 0;">Yunfan Lu, Xiaogang Xu, Hao Lu, Yanlin Qian, Pengteng Li, Huizai Yao, Bin Yang, Junyi Li, Qianyi Cai, Weiyu Guo, Hui Xiong</p>
@@ -83,7 +82,7 @@ Thanks for reading! If you are interested in my research, feel free to reach out
         </div>
         <ul style="list-style: none; padding-left: 0; margin: 0; margin-top: 5px; font-size: 0.9em;">
             <li style="margin-left: 15px;">- Doctor of Philosophy, Data Science and Analytics Thrust</li>
-            <li style="margin-left: 15px;">- Supervisor: <a href="https://ningningding.com/">Prof. Ningning Ding</a></li>
+            <li style="margin-left: 15px;">- Supervisor: <a href="https://ningningding.com/">Prof. Ningning Ding</a>, Co-supervisor: <a href="https://scholar.google.com/citations?user=cVDF1tkAAAAJ&hl=zh-CN&oi=ao">Prof. Hui Xiong</a></li>
         </ul>
     </div>
 </div>
@@ -157,4 +156,3 @@ Thanks for reading! If you are interested in my research, feel free to reach out
 
 
 - Honorable Mention, Mathematical Contest in Modeling  (**Top 20%**)   <span style="float: right;">*2021.05*</span>
-
